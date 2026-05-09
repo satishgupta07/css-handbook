@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Three ways to add CSS</title>
+
+    <!--
+      ============================================================
+      CONCEPT: Three ways to attach CSS to HTML
+      ============================================================
+        1. INLINE     — style="..." on a single tag.
+                        Highest specificity, hard to maintain. Avoid.
+
+        2. INTERNAL   — <style>...</style> in <head>.
+                        Fine for one-off demos / a single page.
+
+        3. EXTERNAL   — <link rel="stylesheet" href="styles.css">.
+                        The standard for real projects. Cacheable,
+                        reusable across pages, separation of concerns.
+
+      Cascade order (later wins, ties broken by specificity):
+        external < internal < inline < !important
+      ============================================================
+    -->
+
+    <!-- 3) EXTERNAL stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- 2) INTERNAL <style> -->
+    <style>
+      body { font-family: sans-serif; padding: 1rem; }
+      .badge { background: #ffeaa7; padding: 2px 8px; border-radius: 4px; }
+    </style>
+  </head>
+
+  <body>
+    <h1>Three ways to add CSS</h1>
+
+    <!-- 1) INLINE -->
+    <p style="color: crimson; font-weight: bold;">
+      I'm styled inline.
+    </p>
+
+    <p>I'm styled by the <span class="badge">internal</span> &lt;style&gt; block.</p>
+
+    <p class="from-external">I'm styled by the <strong>external</strong> stylesheet.</p>
+
+    <hr />
+    <p>Open DevTools (F12) and inspect any element to see WHICH rule applied
+       and WHY (the "Computed" tab shows the winning value, the "Styles"
+       tab lists all matching rules in cascade order).</p>
+  </body>
+</html>

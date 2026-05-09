@@ -1,0 +1,9 @@
+/* External stylesheet for 01_three_ways.html
+   This file demonstrates the EXTERNAL way of adding CSS. */
+
+.from-external {
+  color: #2c3e50;
+  background: #d6f0ff;
+  padding: 0.5rem;
+  border-left: 4px solid #2980b9;
+}
