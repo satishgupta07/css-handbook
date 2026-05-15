@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Specificity & Inheritance</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Specificity
+        ============================================================
+        When two rules apply to the same element, the MORE specific
+        selector wins — regardless of source order.
+
+        Score each selector as a 4-part number   (a, b, c, d)
+            a = inline style          → 1,0,0,0
+            b = id selectors          → 0,1,0,0
+            c = class / attribute / pseudo-class → 0,0,1,0
+            d = element / pseudo-element         → 0,0,0,1
+
+        Compare from left to right.
+        The universal selector (*) and combinators (>, +, ~) score 0.
+
+        Examples:
+            *                  → 0,0,0,0
+            p                  → 0,0,0,1
+            .note              → 0,0,1,0
+            #lead              → 0,1,0,0
+            ul li.active       → 0,0,1,2  (1 class + 2 elements)
+            #header .menu li   → 0,1,1,1
+            inline style       → 1,0,0,0  (always beats CSS)
+            !important         → trumps everything else of equal origin
+        ============================================================
+      */
+
+      p              { color: black; }                /* 0,0,0,1 */
+      .blue          { color: blue; }                 /* 0,0,1,0 — beats p */
+      p.blue         { color: green; }                /* 0,0,1,1 — beats .blue */
+      #target        { color: crimson; }              /* 0,1,0,0 — beats all above */
+      /* inline style beats #target  → see <p style> in markup */
+
+      /*
+        ============================================================
+        CONCEPT: Inheritance
+        ============================================================
+        Some properties INHERIT from parent to child by default
+        (mostly text-related: color, font-family, line-height, ...).
+        Others do NOT inherit (layout: width, padding, border, margin, ...).
+
+        The 3 "magic" keywords work on ANY property:
+            inherit  → take the value from the parent
+            initial  → reset to the property's CSS-spec default
+            unset    → "inherit" if the property normally inherits,
+                       otherwise "initial"
+            revert   → roll back to user-agent / user style
+        ============================================================
+      */
+      .container       { color: navy; font-family: Georgia, serif; }
+      .container .keep  { /* inherits color and font-family from parent */ }
+      .container .reset { color: initial; font-family: initial; }
+      .container .grab  { border-color: inherit; border: 2px solid; padding: 4px; }
+      /* border-color usually defaults to currentColor; here we force it. */
+    </style>
+  </head>
+  <body>
+    <h1>Specificity</h1>
+
+    <p>Plain p — black.</p>
+    <p class="blue">.blue beats p (class > tag).</p>
+    <p class="blue">p.blue (class + tag) beats .blue alone.</p>
+    <p id="target" class="blue">#target — id beats classes.</p>
+    <p id="target" class="blue" style="color: rebeccapurple;">
+      Inline style beats the id.
+    </p>
+
+    <hr />
+    <h1>Inheritance</h1>
+    <div class="container">
+      <p class="keep">I inherit color (navy) and font (Georgia) from .container.</p>
+      <p class="reset">I reset both to their initial values.</p>
+      <p class="grab">My border picks up the parent's color via inherit.</p>
+    </div>
+  </body>
+</html>

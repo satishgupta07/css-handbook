@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Syntax & the Cascade</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: CSS syntax
+        ============================================================
+        A CSS RULE has 2 parts: a SELECTOR and a DECLARATION BLOCK.
+
+            selector  {  property: value;  property: value;  }
+            └──┬──┘   └─────────┬──────────────────────────┘
+               │                │
+               │                └ declaration block (curly braces)
+               └ which elements to style
+
+        Each "property: value;" is a DECLARATION. End each one with `;`.
+        Lines starting with /* ... *​/ are comments (no // line comments).
+        Whitespace is ignored — formatting is purely for humans.
+
+        ============================================================
+        CONCEPT: The Cascade
+        ============================================================
+        The "C" in CSS. When MULTIPLE rules apply to the same element,
+        which property value wins? The cascade resolves it in this order:
+
+          1. Importance      → !important > normal
+          2. Origin          → user-agent (browser default) < author
+                               < user. (You'll usually only deal with author.)
+          3. Specificity     → more-specific selector wins (next file)
+          4. Source order    → if all else equal, the LATER rule wins.
+
+        Try this file:
+          - Two rules target <p>, both equally specific.
+          - The LATER one (color: green) wins by source order.
+          - The third one with !important overrides everyone.
+        ============================================================
+      */
+      p { color: red; }       /* applies to all <p> */
+      p { color: green; }     /* same specificity, but LATER → wins */
+
+      .warn { color: orange !important; }  /* !important beats normal rules */
+    </style>
+  </head>
+  <body>
+    <h1>Syntax & the Cascade</h1>
+
+    <p>This paragraph is GREEN because the second <code>p { color: green }</code>
+       rule comes later in the source than <code>p { color: red }</code>.</p>
+
+    <p class="warn">This paragraph is ORANGE because of <code>!important</code>,
+       which beats both red and green rules above.</p>
+
+    <hr />
+    <h2>!important is a code smell</h2>
+    <p>Use <code>!important</code> sparingly — it makes overrides hard to
+       reason about. Reach for better selectors first; use it only as a
+       last resort (e.g. overriding a 3rd-party library you can't edit).</p>
+  </body>
+</html>
