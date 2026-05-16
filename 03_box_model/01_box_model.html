@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>The Box Model</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: The Box Model
+        ============================================================
+        Every element renders as a rectangular BOX. Each box has 4 layers:
+
+           ┌──────── margin ────────┐
+           │  ┌──── border ───┐     │
+           │  │  ┌─ padding ─┐│     │
+           │  │  │  content  ││     │
+           │  │  └───────────┘│     │
+           │  └───────────────┘     │
+           └────────────────────────┘
+
+        content   text/image inside (sized by width/height)
+        padding   space INSIDE the border, around the content
+        border    line around the padding
+        margin    space OUTSIDE the border, between this & other boxes
+
+        ============================================================
+        CONCEPT: box-sizing
+        ============================================================
+        Default is `content-box`:
+            width = content-only.
+            border + padding ADD to the rendered width.
+            (240px + 16px*2 padding + 4px*2 border = 280px total)
+
+        `border-box` is what almost everyone uses today:
+            width = the WHOLE visible box (content + padding + border).
+            Easier mental model. Layouts don't break when you add padding.
+
+        Add this universal reset at the top of any project:
+            *, *::before, *::after { box-sizing: border-box; }
+        ============================================================
+      */
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body { font-family: sans-serif; padding: 1rem; }
+
+      .box {
+        width: 240px;
+        padding: 16px;
+        border: 4px solid #2c3e50;
+        margin: 12px;
+        background: #ecf0f1;
+      }
+
+      .content-box { box-sizing: content-box; background: #fde4e4; }
+      .border-box  { box-sizing: border-box;  background: #e4fde9; }
+
+      /* margin shorthand:
+         margin: 10px;             all 4 sides
+         margin: 10px 20px;        vertical | horizontal
+         margin: 10px 20px 5px;    top | horizontal | bottom
+         margin: 10px 20px 5px 0;  top | right | bottom | left   (clockwise)
+         margin: 0 auto;           horizontal centering for fixed-width block */
+
+      .centered { margin: 24px auto; }
+
+      /* padding follows the same shorthand pattern */
+    </style>
+  </head>
+  <body>
+    <h1>The Box Model</h1>
+
+    <div class="box content-box">
+      <code>box-sizing: content-box</code><br />
+      width 240 + padding 32 + border 8 = <strong>280px</strong> total visible.
+      Notice this box is wider than the green one below it.
+    </div>
+
+    <div class="box border-box">
+      <code>box-sizing: border-box</code><br />
+      width 240 INCLUDES padding &amp; border. Total = <strong>240px</strong>.
+      What you ask for is what you get.
+    </div>
+
+    <div class="box border-box centered">
+      Horizontally centered with <code>margin: 0 auto</code>.
+    </div>
+
+    <h2>DevTools tip</h2>
+    <p>Open DevTools → Elements → Computed tab. Scroll down for the box-model
+       diagram showing the EXACT pixel values for content, padding, border,
+       and margin of any element you select.</p>
+  </body>
+</html>
