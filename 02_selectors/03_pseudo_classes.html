@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pseudo-classes</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Pseudo-classes (state + structure)
+        ============================================================
+        A pseudo-class targets an element in a particular STATE
+        ("currently hovered", "focused") or by its POSITION among siblings
+        ("first child"). One colon: :name.
+
+        STATE pseudo-classes:
+          :hover            mouse over
+          :focus            keyboard / programmatic focus
+          :focus-visible    focus only when keyboard navigation ← prefer this
+          :active           being clicked
+          :visited          a:visited (links the user has been to)
+          :disabled         form fields disabled
+          :checked          checkbox / radio that's checked
+          :placeholder-shown  input still showing placeholder
+          :valid / :invalid HTML form validation result
+
+        STRUCTURAL pseudo-classes:
+          :first-child / :last-child / :only-child
+          :nth-child(n)        1, 2, 3, ... or "odd" / "even"
+                               formula: an+b — e.g. 3n  → 3,6,9
+                                                3n+1 → 1,4,7
+          :nth-of-type(n)      same, but counts only that tag
+          :empty               element has no children at all
+
+        FUNCTIONAL pseudo-classes:
+          :not(.foo)         everything EXCEPT .foo
+          :is(h1, h2, h3)    short for h1, h2, h3 (same specificity as inside)
+          :where(...)        like :is() but ZERO specificity
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; max-width: 720px; margin: 0 auto; }
+      :focus-visible { outline: 3px solid #2c8eff; outline-offset: 2px; }
+
+      /* state */
+      a:hover           { color: white; background: #2980b9; }
+      a:visited         { color: #8e44ad; }
+      button:active     { transform: translateY(1px); }
+      input:disabled    { background: #eee; color: #999; }
+      input:checked + label { color: green; font-weight: 700; }
+      input:invalid     { border-color: #c0392b; }
+
+      /* structural */
+      ul li:first-child { font-weight: 700; }
+      ul li:last-child  { color: #888; }
+      table tr:nth-child(odd)  { background: #f6f6f6; }
+      table tr:nth-child(3n+1) { font-weight: 600; }   /* every 3rd starting at 1 */
+      p:empty           { background: #ffe4e1; height: 1.2em; }
+
+      /* functional */
+      ul li:not(.skip)  { padding-left: 1.5em; }
+      :is(h1, h2, h3)   { color: #2c3e50; }
+    </style>
+  </head>
+  <body>
+    <h1>Pseudo-classes</h1>
+
+    <h2>State</h2>
+    <p>Hover and click these:
+      <a href="#">an internal link</a>,
+      <a href="https://example.com" target="_blank">a visited link</a>.
+    </p>
+    <p><button>Press me</button>
+       <input type="text" placeholder="enabled" />
+       <input type="text" value="disabled" disabled /></p>
+    <p>
+      <input type="checkbox" id="c1" />
+      <label for="c1">Checked-aware label (turns green when checked)</label>
+    </p>
+
+    <h2>Structural</h2>
+    <ul>
+      <li>First (bold)</li>
+      <li class="skip">Middle (no extra padding)</li>
+      <li>Another</li>
+      <li>Last (gray)</li>
+    </ul>
+
+    <table border="1" cellpadding="6">
+      <tr><th>#</th><th>Item</th></tr>
+      <tr><td>1</td><td>Apples</td></tr>
+      <tr><td>2</td><td>Bananas</td></tr>
+      <tr><td>3</td><td>Cherries</td></tr>
+      <tr><td>4</td><td>Dates</td></tr>
+      <tr><td>5</td><td>Elderberries</td></tr>
+    </table>
+
+    <p>The next paragraph is empty — it gets a pinkish background:</p>
+    <p></p>
+  </body>
+</html>
