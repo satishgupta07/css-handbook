@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pseudo-elements</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Pseudo-elements
+        ============================================================
+        Style a PART of an element that isn't a real DOM node.
+        Two colons: ::name.
+
+        Most useful ones:
+          ::before / ::after   inject generated content
+                               REQUIRES `content: "..."` to render
+          ::first-letter       drop-cap effect
+          ::first-line         style only the first visible line
+          ::placeholder        the placeholder text in inputs
+          ::selection          when the user highlights text
+          ::marker             the bullet/number on list items
+
+        Use cases for ::before / ::after:
+          - Decorative bullets, icons, quote marks
+          - Tooltips
+          - Clearfix hack (legacy)
+          - Required-field asterisks
+          - "Card hover" overlays
+        ============================================================
+      */
+      body {
+        font-family: Georgia, serif;
+        padding: 1rem;
+        max-width: 720px; margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* ::before / ::after — must have content (can be empty "") */
+      .quote::before { content: "\201C"; font-size: 2rem; vertical-align: -0.2em;
+                       margin-right: 0.2em; color: #aaa; }
+      .quote::after  { content: "\201D"; font-size: 2rem; vertical-align: -0.4em;
+                       margin-left: 0.2em; color: #aaa; }
+
+      /* required-field asterisk */
+      label.required::after { content: " *"; color: crimson; }
+
+      /* drop cap */
+      .article::first-letter {
+        float: left;
+        font-size: 3.5rem;
+        line-height: 1;
+        padding-right: 0.3rem;
+        font-weight: 700;
+        color: #c0392b;
+      }
+
+      /* first line of a paragraph */
+      .article::first-line {
+        font-variant: small-caps;
+        letter-spacing: 0.05em;
+      }
+
+      /* placeholder & selection */
+      input::placeholder       { color: #aaa; font-style: italic; }
+      ::selection              { background: #ffeaa7; color: #2c3e50; }
+
+      /* custom list marker */
+      ul.fancy li::marker      { color: #16a085; content: "▶  "; }
+
+      /* a tooltip via ::after */
+      .tip { position: relative; border-bottom: 1px dotted #888; cursor: help; }
+      .tip::after {
+        content: attr(data-tip);
+        position: absolute; bottom: 100%; left: 50%;
+        transform: translateX(-50%);
+        background: #2c3e50; color: white;
+        padding: 4px 8px; border-radius: 4px;
+        white-space: nowrap;
+        opacity: 0; transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .tip:hover::after { opacity: 1; }
+    </style>
+  </head>
+  <body>
+    <h1>Pseudo-elements</h1>
+
+    <h2>::before / ::after</h2>
+    <p class="quote">CSS is the most under-rated language on the web.</p>
+
+    <form>
+      <label for="email" class="required">Email</label>
+      <input id="email" type="email" placeholder="you@example.com" /><br /><br />
+      <label for="msg">Message (optional)</label>
+      <input id="msg" type="text" placeholder="Say hi" />
+    </form>
+
+    <h2>::first-letter and ::first-line</h2>
+    <article class="article">
+      <p>The <strong>::first-letter</strong> pseudo creates a classic drop-cap.
+         The <strong>::first-line</strong> pseudo only styles the visible first line —
+         it adapts as you resize the window. Try it: drag the browser narrower
+         and watch the small-caps "first line" shift.</p>
+    </article>
+
+    <h2>::selection — try highlighting this text</h2>
+    <p>Drag your cursor across this paragraph. The highlight color is custom.</p>
+
+    <h2>Custom ::marker</h2>
+    <ul class="fancy">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <h2>Tooltip with attr()</h2>
+    <p>Hover the term <span class="tip" data-tip="Cascading Style Sheets">CSS</span>
+       to see a tooltip rendered entirely in CSS.</p>
+  </body>
+</html>
