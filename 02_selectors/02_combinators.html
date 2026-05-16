@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Combinators</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Combinators — relating two selectors
+        ============================================================
+          A B    DESCENDANT      any B inside A (any depth)
+          A > B  CHILD           B that is a DIRECT child of A
+          A + B  ADJACENT SIBLING B that is the IMMEDIATE next sibling of A
+          A ~ B  GENERAL SIBLING B that comes AFTER A, same parent
+
+        Whitespace matters:
+            ".menu li"    descendant
+            ".menu>li"    child  (whitespace optional around >)
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      section { border: 1px dashed #ccc; padding: 1rem; margin-bottom: 1.5rem; }
+
+      /* Descendant: any <em> ANYWHERE inside .post */
+      .post em { color: crimson; }
+
+      /* Child: only <li> that is a DIRECT child of .menu (not nested) */
+      .menu > li { background: #ffeaa7; padding: 4px 8px; }
+
+      /* Adjacent sibling: a <p> that comes RIGHT AFTER an <h2> */
+      h2 + p { margin-top: 0; font-weight: 600; color: #16a085; }
+
+      /* General sibling: every <p> that follows .first inside same parent */
+      .first ~ p { color: #8e44ad; }
+    </style>
+  </head>
+  <body>
+    <h1>Combinators</h1>
+
+    <section>
+      <h2>Descendant (space)</h2>
+      <p>This paragraph is right after the h2 above — it gets the
+         <code>h2 + p</code> styling (bold teal).</p>
+
+      <div class="post">
+        <p>The post wraps an <em>emphasized phrase</em> here.</p>
+        <blockquote>Even <em>nested em</em> inside a blockquote is matched
+          by <code>.post em</code> — the descendant combinator goes any depth.</blockquote>
+      </div>
+    </section>
+
+    <section>
+      <h2>Child (>)</h2>
+      <ul class="menu">
+        <li>Top item — direct child, gets the yellow background</li>
+        <li>Top item — also direct child
+          <ul>
+            <li>Nested item — NOT a direct child, no yellow</li>
+            <li>Nested item — same</li>
+          </ul>
+        </li>
+        <li>Last top item</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>General sibling (~)</h2>
+      <p class="first">FIRST paragraph (the marker).</p>
+      <p>I follow .first in the same parent — purple.</p>
+      <p>I follow .first too — also purple.</p>
+      <div>I'm a div between the paragraphs (still siblings).</div>
+      <p>Still purple — ~ doesn't care about gaps, only "after, same parent".</p>
+    </section>
+  </body>
+</html>
