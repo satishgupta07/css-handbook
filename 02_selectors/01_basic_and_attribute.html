@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Basic & Attribute Selectors</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Basic selectors
+        ============================================================
+          *               universal — every element
+          h1              tag (a.k.a. element / type)
+          .badge          class — used MANY times in a page
+          #lead           id — used ONCE per page
+          h1, h2, h3      group — comma-separated, share same rules
+
+        ============================================================
+        CONCEPT: Attribute selectors
+        ============================================================
+          [type]                 has the attribute (any value)
+          [type="text"]          exact value match
+          [class~="warn"]        contains "warn" as a whole word
+          [href^="https"]        starts with
+          [href$=".pdf"]         ends with
+          [title*="hello"]       contains substring
+          [lang|="en"]           equals "en" or starts with "en-"
+          [type="text" i]        case-INSENSITIVE flag (i)
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+
+      *               { box-sizing: border-box; }
+      h2              { color: #2c3e50; }
+      .pill           { background: #ffeaa7; padding: 2px 8px; border-radius: 999px; }
+      #lead           { font-size: 1.15rem; color: #555; }
+      h2, h3          { letter-spacing: 0.02em; }
+
+      /* attribute selectors */
+      [data-status]                 { font-style: italic; }      /* has attr */
+      [data-status="done"]          { text-decoration: line-through; color: #888; }
+      [data-status="urgent"]        { color: #c0392b; font-weight: 700; }
+      a[href^="https://"]::after    { content: " 🌐"; font-size: 0.8em; }
+      a[href$=".pdf"]::after        { content: " 📄"; font-size: 0.8em; }
+      a[href*="github"]             { color: #6e40c9; }
+      input[type="text"]            { border: 2px solid #2980b9; padding: 4px; }
+      input[type="email"]           { border: 2px solid #16a085; padding: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Basic & Attribute Selectors</h1>
+    <p id="lead">The lead paragraph — styled by the <code>#lead</code> id.</p>
+
+    <h2>Tag, class, group</h2>
+    <p>Both my <span class="pill">first pill</span> and
+       <span class="pill">second pill</span> use the same class.</p>
+
+    <h2>Tasks (data-status attribute)</h2>
+    <ul>
+      <li data-status="done">Set up the project</li>
+      <li data-status="in-progress">Write the README</li>
+      <li data-status="urgent">Fix the production bug</li>
+    </ul>
+
+    <h2>Smart link icons (attribute starts/ends with)</h2>
+    <p><a href="https://example.com">External link</a></p>
+    <p><a href="/files/report.pdf">PDF download</a></p>
+    <p><a href="https://github.com/satish">My GitHub profile</a></p>
+
+    <h2>Inputs styled by their type</h2>
+    <input type="text"  placeholder="text input" />
+    <input type="email" placeholder="email input" />
+  </body>
+</html>
