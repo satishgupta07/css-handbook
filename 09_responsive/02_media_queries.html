@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Media Queries</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Media Queries
+        ============================================================
+        Apply styles only when the device or viewport matches a condition.
+
+          @media (min-width: 600px)  { ... }
+          @media (max-width: 599px)  { ... }
+          @media (orientation: landscape) { ... }
+          @media (prefers-color-scheme: dark) { ... }
+          @media (prefers-reduced-motion: reduce) { ... }
+          @media (hover: hover) { ... }     "device CAN hover" (mouse, not touch)
+          @media print { ... }              when the user prints the page
+          @media (resolution: 2dppx) { ... } retina/high-DPI
+
+        Combine with logical operators:
+          @media (min-width: 600px) and (max-width: 1199px) { ... }
+          @media (min-width: 600px), (orientation: landscape) { ... }   (= OR)
+          @media not (min-width: 1200px) { ... }
+
+        ============================================================
+        CONCEPT: Mobile-first
+        ============================================================
+        Write the BASE styles for SMALL screens, then progressively
+        add @media (min-width: ...) overrides for larger viewports.
+
+        Why? On mobile, default styles apply immediately — no media
+        queries to evaluate. Plus mobile is the harder case to design
+        for, so getting it right first leads to cleaner CSS.
+
+        Typical breakpoints (NOT rules):
+              0–599px   phone
+            600–899px   tablet
+            900–1199px  small laptop
+            1200px+     desktop
+        ============================================================
+      */
+      *, *::before, *::after { box-sizing: border-box; }
+      body { font-family: sans-serif; margin: 0; }
+
+      /* MOBILE-FIRST baseline */
+      .nav {
+        background: #2c3e50; color: white;
+        padding: 1rem;
+      }
+      .nav ul { list-style: none; padding: 0; margin: 0; }
+      .nav li { padding: 0.5rem 0; border-bottom: 1px solid #44607a; }
+      .nav a  { color: white; text-decoration: none; }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .grid > div {
+        background: #ecf0f1; padding: 1rem; border-radius: 8px;
+      }
+
+      h1 { font-size: 1.5rem; padding: 0 1rem; }
+
+      .info {
+        position: fixed; bottom: 1rem; right: 1rem;
+        background: #16a085; color: white;
+        padding: 0.4rem 0.8rem; border-radius: 4px;
+        font-size: 0.85rem;
+      }
+      .info::before { content: "📱 mobile"; }
+
+      /* TABLET */
+      @media (min-width: 600px) {
+        .nav ul { display: flex; gap: 1rem; }
+        .nav li { border-bottom: none; padding: 0; }
+        .grid { grid-template-columns: repeat(2, 1fr); }
+        h1 { font-size: 2rem; }
+        .info::before { content: "💻 tablet"; }
+        .info { background: #2980b9; }
+      }
+
+      /* DESKTOP */
+      @media (min-width: 900px) {
+        .grid { grid-template-columns: repeat(3, 1fr); }
+        h1 { font-size: 2.5rem; }
+        .info::before { content: "🖥️ desktop"; }
+        .info { background: #8e44ad; }
+      }
+
+      /* DARK MODE */
+      @media (prefers-color-scheme: dark) {
+        body { background: #1e272e; color: #ecf0f1; }
+        .grid > div { background: #2f3640; }
+      }
+
+      /* REDUCED MOTION — be respectful of the user's OS preference */
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+
+      /* PRINT — strip nav & dark backgrounds when printing */
+      @media print {
+        .nav, .info { display: none; }
+        body { color: black; background: white; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Articles</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <h1>Resize the window</h1>
+
+    <div class="grid">
+      <div>1</div><div>2</div><div>3</div>
+      <div>4</div><div>5</div><div>6</div>
+    </div>
+
+    <div class="info"></div>
+  </body>
+</html>
