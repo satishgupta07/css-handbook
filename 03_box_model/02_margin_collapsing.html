@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Margin Collapsing & Negative Margins</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Vertical margin collapsing
+        ============================================================
+        VERTICAL margins between adjacent block-level siblings COLLAPSE
+        into a single margin equal to the LARGER of the two — not the sum.
+
+        It also happens between:
+          - parent & first/last child (if there's no border or padding
+            between them)
+          - empty elements with top + bottom margins
+
+        It does NOT happen with:
+          - horizontal margins
+          - flex/grid items
+          - elements with overflow: hidden / auto / scroll
+          - elements with float, position: absolute/fixed
+
+        Why does it exist? Historical: print-style typography needed
+        consistent gaps regardless of whether one heading or two
+        adjacent paragraphs touched.
+
+        ============================================================
+        CONCEPT: Negative margins
+        ============================================================
+        Margins can be NEGATIVE → element pulls toward its neighbor or
+        out of its container. Useful for "bleed" sections, overlap
+        effects, hangs and pull-quotes.
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .demo {
+        outline: 2px dashed #888;
+        margin-bottom: 2rem;
+      }
+      .a { background: #ffd6a5; padding: 4px; margin: 30px 0; }
+      .b { background: #caffbf; padding: 4px; margin: 50px 0; }
+
+      /* Wrap that prevents collapsing: any of these works
+         - display: flex / grid
+         - overflow: hidden / auto
+         - padding > 0 between parent & child
+         - border > 0 between parent & child */
+      .no-collapse { display: flex; flex-direction: column; }
+      .no-collapse .a, .no-collapse .b { margin: 30px 0; background: inherit; }
+      .no-collapse .a { background: #ffd6a5; }
+      .no-collapse .b { background: #caffbf; }
+
+      /* Negative-margin overlap: pull the second card up to overlap the first */
+      .stack { display: grid; gap: 0; }
+      .card {
+        padding: 1rem; border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        background: #2c3e50; color: white;
+      }
+      .card + .card { margin-top: -20px; background: #16a085; }
+    </style>
+  </head>
+  <body>
+    <h1>Margin Collapsing</h1>
+    <p>Both boxes below have vertical margin of 30px and 50px respectively.
+       The gap between them is <strong>50px</strong> (the larger), not 80px.</p>
+
+    <div class="demo">
+      <div class="a">A — margin: 30px 0</div>
+      <div class="b">B — margin: 50px 0</div>
+    </div>
+
+    <h2>Disabling collapse with flex</h2>
+    <p>Now the parent is <code>display: flex</code>. Margins NO LONGER collapse —
+       the gap is the SUM (60px).</p>
+    <div class="demo no-collapse">
+      <div class="a">A — margin 30px</div>
+      <div class="b">B — margin 30px</div>
+    </div>
+
+    <h1>Negative margins</h1>
+    <p>The second card uses <code>margin-top: -20px</code> to overlap the first.</p>
+    <div class="stack">
+      <div class="card">First card (back)</div>
+      <div class="card">Second card (overlaps the first by 20px)</div>
+    </div>
+  </body>
+</html>
