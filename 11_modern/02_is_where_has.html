@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>:is(), :where(), :has()</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: :is() and :where() — selector grouping
+        ============================================================
+        Both let you write a SHORTER, grouped selector list.
+
+          :is(h1, h2, h3) { color: navy; }
+            equivalent to:
+          h1, h2, h3 { color: navy; }
+            BUT now you can write things like:
+          article :is(h1, h2, h3) { ... }
+            equivalent to:
+          article h1, article h2, article h3 { ... }
+
+        Difference between :is() and :where():
+          :is()    takes the HIGHEST specificity of the inner selectors.
+                   `:is(#id, .cls)` has specificity 0,1,0,0
+          :where() always has specificity 0 — easy to override later.
+                   Great for resets and base styles.
+
+        ============================================================
+        CONCEPT: :has() — the parent / ancestor selector
+        ============================================================
+        :has(selector) matches an element IF it CONTAINS something
+        matching the selector. CSS finally has an "if" relation!
+
+          form:has(input:invalid) { border-color: red; }
+          a:has(img)              { padding: 0; }
+          .card:has(> .badge)     { border: 2px solid orange; }
+          li:has(+ li:hover)      { opacity: 0.5; }   (style sibling
+                                     based on adjacent hover state)
+
+        Supported in all modern browsers (2023+).
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; max-width: 720px; margin: 0 auto; }
+
+      /* :is() */
+      article :is(h1, h2, h3) { color: #2c3e50; border-bottom: 2px solid #ecf0f1; }
+
+      /* :where() — easy to override, no specificity cost */
+      :where(button) { padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; border: none; }
+      .primary { background: #2980b9; color: white; }   /* still wins easily */
+
+      /* :has() — outline a CARD when it contains an unread badge */
+      .card {
+        padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem;
+      }
+      .card:has(.unread) {
+        border-color: #f39c12;
+        box-shadow: 0 0 0 3px rgba(243,156,18,0.18);
+      }
+      .unread {
+        display: inline-block; background: #f39c12; color: white;
+        padding: 2px 8px; border-radius: 999px; font-size: 0.75rem;
+      }
+
+      /* :has() — style a form section when any input is invalid */
+      .field { display: grid; gap: 0.25rem; margin-bottom: 0.5rem; }
+      .field input { padding: 0.4rem; }
+      .form-group { padding: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+      .form-group:has(input:invalid:not(:placeholder-shown)) {
+        border-color: crimson;
+        background: #fdecea;
+      }
+
+      /* :has() — dim siblings of a hovered list item (a fancy hover effect) */
+      .nav-list { list-style: none; padding: 0; display: flex; gap: 1rem; }
+      .nav-list li { padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; }
+      .nav-list:has(li:hover) li:not(:hover) { opacity: 0.4; transition: opacity 0.2s; }
+    </style>
+  </head>
+  <body>
+    <h1>:is(), :where(), :has()</h1>
+
+    <article>
+      <h1>:is() — grouped headings inside an article</h1>
+      <p>Both h1, h2 and h3 inside <code>article</code> share styles via :is().</p>
+      <h2>Subheading</h2>
+      <h3>Sub-sub heading</h3>
+    </article>
+
+    <h2>:where() base buttons (no specificity)</h2>
+    <p>
+      <button>Default</button>
+      <button class="primary">Primary (overrides easily)</button>
+    </p>
+
+    <h2>:has() — card with unread badge gets a glow</h2>
+    <div class="card">Plain card.</div>
+    <div class="card">
+      Card with notification <span class="unread">3 new</span>
+    </div>
+    <div class="card">Another plain card.</div>
+
+    <h2>:has() — form group highlights on invalid input</h2>
+    <div class="form-group">
+      <div class="field">
+        <label>Email (must be valid)</label>
+        <input type="email" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="tel" placeholder=" " />
+      </div>
+      <p><small>Type something invalid in either field — the whole group lights up.</small></p>
+    </div>
+
+    <h2>:has() + :hover — dim other siblings</h2>
+    <ul class="nav-list">
+      <li>Home</li>
+      <li>Articles</li>
+      <li>Projects</li>
+      <li>Contact</li>
+    </ul>
+    <p><small>Hover one item — the others fade. No JS.</small></p>
+  </body>
+</html>
