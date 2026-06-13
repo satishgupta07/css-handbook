@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Responsive — clamp & container queries</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: clamp() — fluid sizing without breakpoints
+        ============================================================
+          clamp(MIN, PREFERRED, MAX)
+
+        Example:
+          font-size: clamp(1rem, 2vw + 0.5rem, 2rem);
+            → never below 1rem, never above 2rem,
+              otherwise scales with viewport width.
+
+        Use for:
+          font-size, padding, margin, gap, border-radius — anything
+          you'd otherwise wrap in many @media queries.
+
+        ============================================================
+        CONCEPT: Container Queries — style based on the PARENT, not viewport
+        ============================================================
+        Media queries respond to the WINDOW. But a card might be 200px
+        wide in a sidebar OR 600px wide in the main column — same
+        viewport, different layouts.
+
+        Container queries fix this:
+
+          .parent { container-type: inline-size; container-name: card; }
+
+          @container card (min-width: 400px) {
+            .child { ... }
+          }
+
+        Now styles depend on .parent's WIDTH, not the viewport.
+        Supported in all modern browsers (2023+).
+
+        ============================================================
+        CONCEPT: aspect-ratio
+        ============================================================
+        aspect-ratio: 16 / 9;     keep the box at this ratio
+                                  (no padding-bottom hack anymore)
+        ============================================================
+      */
+      *, *::before, *::after { box-sizing: border-box; }
+      body { font-family: sans-serif; margin: 0; padding: 1rem; }
+
+      /* fluid type & spacing — no media queries */
+      h1 { font-size: clamp(1.5rem, 2vw + 1rem, 3rem); margin: 0 0 0.5rem; }
+      .hero {
+        padding: clamp(1rem, 5vw, 4rem);
+        background: linear-gradient(135deg, #6a5af9, #ec4899);
+        color: white; border-radius: 12px;
+        margin-bottom: 1.5rem;
+      }
+
+      /* aspect-ratio — keep image area 16:9 */
+      .video-box {
+        aspect-ratio: 16 / 9;
+        background: #2c3e50; color: white;
+        display: grid; place-items: center;
+        border-radius: 8px; margin-bottom: 1.5rem;
+      }
+
+      /* Container queries demo */
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 1rem;
+      }
+      .layout > .col {
+        container-type: inline-size;          /* enable container queries */
+        container-name: card;
+        background: #f4f4f4; padding: 1rem; border-radius: 8px;
+      }
+
+      .card {
+        background: white; padding: 1rem;
+        border: 1px solid #ddd; border-radius: 8px;
+      }
+      .card h3 { margin: 0 0 0.5rem; }
+      .card .body { display: block; }
+      .card img { width: 100%; border-radius: 4px; }
+
+      /* When the CONTAINER is at least 400px wide, switch to side-by-side */
+      @container card (min-width: 400px) {
+        .card { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; }
+        .card img { width: 120px; }
+      }
+
+      @media (max-width: 700px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero">
+      <h1>Fluid hero (resize the window)</h1>
+      <p>The padding and font scale smoothly via <code>clamp()</code> —
+         no media-query breakpoints needed.</p>
+    </div>
+
+    <h2>aspect-ratio: 16 / 9</h2>
+    <div class="video-box">▶ I'm always 16:9 regardless of width</div>
+
+    <h2>Container queries</h2>
+    <p>The two columns hold the SAME card markup. The <strong>narrow</strong>
+       column shows it stacked. The <strong>wide</strong> column shows the
+       400px+ side-by-side variant. The viewport size is unchanged.</p>
+
+    <div class="layout">
+      <div class="col">
+        <h3>Narrow column (~ 1fr of 3)</h3>
+        <article class="card">
+          <img src="https://picsum.photos/300/180" alt="" />
+          <div class="body">
+            <h3>Card title</h3>
+            <p>Stacks vertically because the parent column is narrow.</p>
+          </div>
+        </article>
+      </div>
+      <div class="col">
+        <h3>Wide column (~ 2fr of 3)</h3>
+        <article class="card">
+          <img src="https://picsum.photos/300/180?random=2" alt="" />
+          <div class="body">
+            <h3>Card title</h3>
+            <p>Same markup, but here the parent is wider than 400px so the
+               <code>@container</code> rule kicks in and switches to a side-by-side
+               layout.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
