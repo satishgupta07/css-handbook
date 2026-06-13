@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flexbox — Container Properties</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Flexbox — One-dimensional layout
+        ============================================================
+        Flexbox arranges items in ONE direction — a row OR a column.
+        Container = parent. Items = direct children.
+
+        Two axes:
+          MAIN AXIS    direction items lay out (row → horizontal)
+          CROSS AXIS   perpendicular to main
+
+        Container properties (set on the parent with display: flex):
+
+          flex-direction:    row | row-reverse | column | column-reverse
+          flex-wrap:         nowrap (default) | wrap | wrap-reverse
+          flex-flow:         shorthand for direction + wrap
+          gap:               gap between items (no margin hacks!)
+                             row-gap and column-gap also work
+
+          justify-content:   alignment along MAIN axis
+              flex-start | flex-end | center
+              space-between | space-around | space-evenly
+
+          align-items:       alignment along CROSS axis (single line)
+              stretch (default) | flex-start | flex-end | center | baseline
+
+          align-content:     alignment of WRAPPED LINES along cross axis
+              same values + space-between/around/evenly
+              (only effective when flex-wrap is on AND there are 2+ lines)
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .row {
+        display: flex;
+        gap: 8px;
+        background: #ecf0f1;
+        padding: 8px;
+        margin-bottom: 12px;
+        min-height: 80px;
+      }
+      .row > div {
+        background: #3498db; color: white; padding: 12px; border-radius: 4px;
+      }
+
+      .col       { flex-direction: column; height: 200px; }
+      .end       { justify-content: flex-end; }
+      .center    { justify-content: center; align-items: center; height: 80px; }
+      .between   { justify-content: space-between; }
+      .around    { justify-content: space-around; }
+      .evenly    { justify-content: space-evenly; }
+      .ai-end    { align-items: flex-end; height: 100px; }
+      .baseline  { align-items: baseline; height: 100px; }
+      .baseline > div:nth-child(1) { font-size: 1rem; }
+      .baseline > div:nth-child(2) { font-size: 2rem; }
+      .baseline > div:nth-child(3) { font-size: 0.8rem; }
+
+      .wrap      { flex-wrap: wrap; }
+
+      .row.tall { min-height: 160px; }
+      .row.tall > div { height: 30px; }
+      .ac-between { align-content: space-between; flex-wrap: wrap; min-height: 200px; }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox — Container properties</h1>
+
+    <h2>flex-direction: row (default)</h2>
+    <div class="row"><div>1</div><div>2</div><div>3</div></div>
+
+    <h2>flex-direction: column</h2>
+    <div class="row col"><div>1</div><div>2</div><div>3</div></div>
+
+    <h2>justify-content: flex-end | center | space-between | space-around | space-evenly</h2>
+    <div class="row end"><div>1</div><div>2</div><div>3</div></div>
+    <div class="row center"><div>1</div><div>2</div><div>3</div></div>
+    <div class="row between"><div>1</div><div>2</div><div>3</div></div>
+    <div class="row around"><div>1</div><div>2</div><div>3</div></div>
+    <div class="row evenly"><div>1</div><div>2</div><div>3</div></div>
+
+    <h2>align-items: flex-end | baseline</h2>
+    <div class="row ai-end"><div>tall</div><div>tall</div><div>tall</div></div>
+    <div class="row baseline"><div>1rem</div><div>2rem</div><div>0.8rem</div></div>
+
+    <h2>flex-wrap: wrap</h2>
+    <div class="row wrap">
+      <div>A</div><div>B</div><div>C</div><div>D</div><div>E</div>
+      <div>F</div><div>G</div><div>H</div><div>I</div><div>J</div>
+      <div>K</div><div>L</div><div>M</div><div>N</div>
+    </div>
+
+    <h2>align-content (multi-line cross-axis alignment)</h2>
+    <div class="row tall ac-between">
+      <div>A</div><div>B</div><div>C</div><div>D</div><div>E</div>
+      <div>F</div><div>G</div><div>H</div><div>I</div><div>J</div>
+    </div>
+  </body>
+</html>
