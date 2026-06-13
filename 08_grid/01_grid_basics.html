@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Grid Basics</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: CSS Grid — Two-dimensional layout
+        ============================================================
+        Grid arranges items in BOTH rows AND columns simultaneously.
+        Use Grid for page layouts, dashboards, photo galleries.
+        Use Flex for one-axis arrangements (rows OR columns).
+
+        Activate on the parent: display: grid
+
+        Define tracks (rows/columns):
+          grid-template-columns: 200px 1fr 1fr;
+              fixed | flexible — `1fr` means "1 fraction of leftover space"
+
+          repeat(3, 1fr)                three equal columns
+          repeat(2, 100px 1fr)          alternating pattern
+          minmax(150px, 1fr)            "at least 150px, otherwise stretch"
+          repeat(auto-fit, minmax(200px, 1fr))
+              "fit as many 200px+ columns as possible"
+              → INSTANT responsive grid, NO media queries
+
+          grid-template-rows: 80px 1fr 80px;
+              same syntax for rows
+
+        Spacing:
+          gap: 16px;          rows AND columns
+          row-gap, column-gap individually
+
+        Special unit:
+          fr   "fraction" of the remaining free space.
+               1fr 2fr 1fr  → 25% / 50% / 25%
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .demo { background: #ecf0f1; padding: 8px; margin-bottom: 1.5rem; }
+      .demo > * {
+        background: #16a085; color: white;
+        padding: 14px; border-radius: 4px; text-align: center;
+      }
+
+      .three-equal {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .mixed {
+        display: grid;
+        grid-template-columns: 200px 1fr 100px;
+        gap: 8px;
+      }
+
+      .auto-fit {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 8px;
+      }
+
+      .with-rows {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 80px 80px;
+        gap: 8px;
+      }
+
+      .minmax-rows {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: minmax(60px, auto) minmax(60px, auto);
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Grid Basics</h1>
+
+    <h2>3 equal columns: <code>repeat(3, 1fr)</code></h2>
+    <div class="demo three-equal">
+      <div>1</div><div>2</div><div>3</div>
+      <div>4</div><div>5</div><div>6</div>
+    </div>
+
+    <h2>Mixed widths: <code>200px 1fr 100px</code></h2>
+    <div class="demo mixed"><div>200px</div><div>flexible 1fr</div><div>100px</div></div>
+
+    <h2>Auto-fit responsive grid (resize the window!)</h2>
+    <p>The grid fits as many ≥160px columns as the screen allows.
+       No media queries needed.</p>
+    <div class="demo auto-fit">
+      <div>A</div><div>B</div><div>C</div><div>D</div>
+      <div>E</div><div>F</div><div>G</div><div>H</div>
+    </div>
+
+    <h2>Explicit rows: <code>grid-template-rows: 80px 80px</code></h2>
+    <div class="demo with-rows">
+      <div>1</div><div>2</div><div>3</div>
+      <div>4</div><div>5</div><div>6</div>
+    </div>
+
+    <h2>minmax for rows that can grow with content</h2>
+    <div class="demo minmax-rows">
+      <div>short</div>
+      <div>This cell has more text so the row grows up to fit.</div>
+      <div>1</div><div>2</div>
+    </div>
+  </body>
+</html>
