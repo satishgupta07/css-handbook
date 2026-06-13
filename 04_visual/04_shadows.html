@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shadows</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: box-shadow
+        ============================================================
+          box-shadow: <x> <y> <blur> [<spread>] <color> [inset];
+
+          x      horizontal offset (positive = right)
+          y      vertical offset (positive = down)
+          blur   how soft the shadow is (bigger = more diffuse)
+          spread (optional) grow/shrink the shadow itself
+          color  the shadow color
+          inset  (optional) shadow goes INSIDE the box
+
+        Stack multiple shadows with commas:
+          box-shadow:
+            0 1px 2px rgba(0,0,0,0.05),
+            0 4px 12px rgba(0,0,0,0.1);
+
+        Modern UI tip: prefer many SOFT, low-opacity shadows over a single
+        hard shadow — feels more natural and "elevated".
+
+        ============================================================
+        CONCEPT: text-shadow
+        ============================================================
+          text-shadow: <x> <y> <blur> <color>;
+        Same idea, applied to text. Can be stacked too.
+        ============================================================
+      */
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+        background: #f4f4f4;
+      }
+      .row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+      .card {
+        background: white; padding: 1.2rem 1.4rem;
+        width: 180px; border-radius: 10px;
+      }
+
+      .s1 { box-shadow: 4px 4px 0 #2c3e50; }                       /* hard offset */
+      .s2 { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }              /* common card */
+      .s3 { box-shadow: 0 12px 24px rgba(0,0,0,0.2); }             /* elevated */
+      .s4 { box-shadow:
+              0 1px 3px rgba(0,0,0,0.05),
+              0 8px 16px rgba(0,0,0,0.1); }                        /* layered (modern) */
+      .s5 { box-shadow: inset 0 0 0 4px #2980b9; }                 /* inset = inner ring */
+      .s6 { box-shadow: 0 0 0 3px #ffb142; }                       /* spread-only ring */
+      .s7 { box-shadow: 0 0 30px 10px crimson; }                   /* glow */
+
+      /* hover: lift the card with a bigger shadow */
+      .lift { transition: transform 0.2s, box-shadow 0.2s; }
+      .lift:hover { transform: translateY(-4px);
+                    box-shadow: 0 12px 24px rgba(0,0,0,0.18); }
+
+      /* text-shadow demos */
+      h2 { text-shadow: 1px 1px 0 #ddd; }                          /* subtle emboss */
+      .glow {
+        font-size: 2.5rem; font-weight: 800; color: white;
+        background: #1a1a2e; padding: 1rem; border-radius: 8px;
+        text-shadow:
+          0 0 4px #fff,
+          0 0 12px #ff00cc,
+          0 0 22px #ff00cc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Shadows</h1>
+
+    <h2>box-shadow</h2>
+    <div class="row">
+      <div class="card s1">hard offset</div>
+      <div class="card s2">common card</div>
+      <div class="card s3">elevated</div>
+      <div class="card s4">layered (modern)</div>
+      <div class="card s5">inset ring</div>
+      <div class="card s6">spread-only ring</div>
+      <div class="card s7">glow</div>
+    </div>
+
+    <h2>Hover lift</h2>
+    <div class="row">
+      <div class="card lift s2">Hover me</div>
+      <div class="card lift s4">Hover me</div>
+    </div>
+
+    <h2>text-shadow neon</h2>
+    <p class="glow">NEON</p>
+  </body>
+</html>
