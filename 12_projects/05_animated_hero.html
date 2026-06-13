@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Landing Hero</title>
+    <style>
+      /* PROJECT 5: Animated full-bleed hero section.
+         Practices: animated gradients, keyframes, fade-in stagger,
+         clamp typography, floating shapes, glassmorphism. */
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --brand-1: #ee7752;
+        --brand-2: #e73c7e;
+        --brand-3: #23a6d5;
+        --brand-4: #23d5ab;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        color: white;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* HERO with animated gradient background */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        background: linear-gradient(-45deg,
+          var(--brand-1), var(--brand-2),
+          var(--brand-3), var(--brand-4));
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 2rem;
+        overflow: hidden;
+      }
+
+      @keyframes gradient {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Floating decorative shapes in the background */
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(20px);
+        animation: float 20s ease-in-out infinite;
+      }
+      .shape:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 10%; }
+      .shape:nth-child(2) { width: 150px; height: 150px; top: 60%; right: 15%;
+                            animation-delay: -5s; animation-duration: 25s; }
+      .shape:nth-child(3) { width: 100px; height: 100px; bottom: 20%; left: 30%;
+                            animation-delay: -10s; }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        33%      { transform: translateY(-30px) rotate(120deg); }
+        66%      { transform: translateY(20px) rotate(240deg); }
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.3);
+        padding: 0.4rem 1rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.2s ease-out forwards;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.4s ease-out forwards;
+      }
+
+      h1 span {
+        background: linear-gradient(90deg, #fff, #ffe082);
+        -webkit-background-clip: text; background-clip: text;
+        color: transparent;
+      }
+
+      .tagline {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        opacity: 0;
+        animation: fadeUp 0.8s 0.6s ease-out forwards;
+        margin-bottom: 2rem;
+        max-width: 560px;
+        margin-inline: auto;
+        line-height: 1.6;
+      }
+
+      .ctas {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.8s ease-out forwards;
+      }
+
+      .btn {
+        padding: 0.85rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #1a1a2e;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      }
+
+      .btn-ghost {
+        border: 2px solid rgba(255,255,255,0.4);
+        color: white;
+        backdrop-filter: blur(8px);
+      }
+      .btn-ghost:hover {
+        background: rgba(255,255,255,0.15);
+        border-color: white;
+      }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Scroll indicator */
+      .scroll-hint {
+        position: absolute;
+        bottom: 2rem; left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.85rem;
+        opacity: 0.7;
+        animation: bounce 2s ease-in-out infinite;
+      }
+      @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%      { transform: translateX(-50%) translateY(8px); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+
+      <div class="content">
+        <span class="badge">✨ Now in beta</span>
+        <h1>Build something <span>beautiful</span> today.</h1>
+        <p class="tagline">A modern starter kit for indie hackers, students,
+           and anyone who wants to learn CSS by building real things.</p>
+        <div class="ctas">
+          <a href="#" class="btn btn-primary">Get started — free</a>
+          <a href="#" class="btn btn-ghost">Watch demo</a>
+        </div>
+      </div>
+
+      <div class="scroll-hint">↓ Scroll</div>
+    </section>
+  </body>
+</html>
