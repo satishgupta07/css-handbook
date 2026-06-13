@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>display values</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: display
+        ============================================================
+        display controls how an element FLOWS in layout.
+
+          block          starts new line, fills available width
+                         (div, p, h1, section)
+          inline         flows with text, ignores width/height/vertical margin
+                         (span, a, strong, em)
+          inline-block   flows like inline BUT respects width/height/margin
+          none           removed from rendering AND accessibility tree
+          contents       removes the box itself but keeps the children
+                         (advanced — useful for unstyling wrappers)
+
+          flex / inline-flex   activate flexbox layout (Phase 7)
+          grid / inline-grid   activate grid layout    (Phase 8)
+          flow-root            "BFC starter" — used to contain floats
+                               and stop margin collapse without overflow tricks
+
+        Hide vs hidden:
+          display: none         removed (no space, not in a11y tree)
+          visibility: hidden    invisible BUT still occupies space
+          opacity: 0            invisible, takes space, still clickable!
+                                (use pointer-events: none to suppress clicks)
+          [hidden] attribute    same as display: none
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .demo { border: 1px dashed #aaa; padding: 8px; margin-bottom: 1.5rem; }
+      .demo > * {
+        background: #ffd6e8; padding: 4px 10px; margin: 2px;
+        border: 1px solid #c2185b; border-radius: 4px;
+      }
+      .blk    { display: block; }
+      .inl    { display: inline; }
+      .inlblk { display: inline-block; width: 80px; height: 40px; text-align: center; }
+
+      /* compare hide approaches */
+      .hide-stack > div { padding: 6px; background: #f4f4f4; margin: 4px 0; }
+      .hide-display    { display: none; }
+      .hide-visibility { visibility: hidden; }
+      .hide-opacity    { opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <h1>display</h1>
+
+    <h2>block (each on its own line, full width)</h2>
+    <div class="demo">
+      <span class="blk">block 1</span>
+      <span class="blk">block 2</span>
+      <span class="blk">block 3</span>
+    </div>
+
+    <h2>inline (flow with text, ignore width/height)</h2>
+    <div class="demo">
+      <span class="inl" style="width: 200px; height: 200px;">inline</span>
+      <span class="inl">inline (width/height ignored)</span>
+      <span class="inl">inline</span>
+    </div>
+
+    <h2>inline-block (flow inline, width/height respected)</h2>
+    <div class="demo">
+      <span class="inlblk">ib 1</span>
+      <span class="inlblk">ib 2</span>
+      <span class="inlblk">ib 3</span>
+    </div>
+
+    <h2>4 ways to "hide" an element — they're NOT equivalent</h2>
+    <div class="hide-stack">
+      <div>1 — visible</div>
+      <div class="hide-display">2 — display: none (gone, no slot)</div>
+      <div>3 — visible (notice 2 left no gap)</div>
+      <div class="hide-visibility">4 — visibility: hidden (slot kept)</div>
+      <div>5 — visible (notice 4 left a gap above)</div>
+      <div class="hide-opacity">6 — opacity: 0 (slot kept, still clickable)</div>
+      <div>7 — visible</div>
+    </div>
+  </body>
+</html>
