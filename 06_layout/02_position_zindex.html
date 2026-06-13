@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Position & z-index</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: position
+        ============================================================
+        position controls how/where an element is placed.
+
+          static    DEFAULT — normal flow. top/left/right/bottom IGNORED.
+          relative  Stays in flow but can be OFFSET via top/left/right/bottom
+                    Also creates a "containing block" for absolute children.
+          absolute  REMOVED from flow. Positioned relative to the nearest
+                    positioned ancestor (relative/absolute/fixed/sticky),
+                    or the initial containing block (viewport) if none.
+          fixed     REMOVED from flow. Positioned to the VIEWPORT.
+                    Stays put while the page scrolls. (Sticky headers, FAB.)
+          sticky    Behaves like relative until you scroll past a threshold,
+                    then "sticks" like fixed. Great for section headers.
+
+        ============================================================
+        CONCEPT: z-index & stacking contexts
+        ============================================================
+        z-index sets the stacking ORDER on the z-axis (toward viewer).
+        ONLY works on POSITIONED elements (relative/absolute/fixed/sticky)
+        and on flex/grid items.
+
+        Stacking context "gotcha": z-index is COMPARED only within the
+        same stacking context. A child with z-index 9999 inside a parent
+        with z-index 1 will NEVER appear above a sibling of the parent
+        with z-index 2. Stacking contexts are created by:
+          - root <html>
+          - position + z-index (any value other than auto)
+          - opacity < 1
+          - transform / filter / will-change set
+          - flex / grid items with z-index
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; margin: 0; }
+      .demo { border: 1px dashed #aaa; padding: 1rem; margin-bottom: 1.5rem; min-height: 120px; }
+
+      .rel { position: relative; top: 10px; left: 30px;
+             background: #ffeaa7; padding: 6px; }
+
+      /* parent must be positioned for absolute child to anchor here */
+      .container {
+        position: relative;
+        height: 100px; background: #ecf0f1;
+      }
+      .badge {
+        position: absolute; top: 8px; right: 8px;
+        background: crimson; color: white;
+        padding: 4px 8px; border-radius: 4px;
+      }
+
+      .fab {
+        position: fixed; bottom: 20px; right: 20px;
+        width: 56px; height: 56px; border-radius: 50%;
+        background: #2980b9; color: white;
+        display: grid; place-items: center;
+        font-size: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        z-index: 100;
+      }
+
+      /* sticky section header */
+      .scroll-area {
+        height: 200px; overflow: auto; border: 1px solid #888;
+      }
+      .sticky-h {
+        position: sticky; top: 0;
+        background: #2c3e50; color: white; padding: 6px 10px;
+        z-index: 1;
+      }
+
+      /* z-index demo */
+      .stack { position: relative; height: 120px; }
+      .stack div {
+        position: absolute; width: 80px; height: 80px;
+        color: white; padding: 8px; font-weight: 700;
+      }
+      .red    { background: #e74c3c; top: 10px; left: 10px;  z-index: 1; }
+      .green  { background: #27ae60; top: 30px; left: 50px;  z-index: 3; }
+      .blue   { background: #3498db; top: 50px; left: 100px; z-index: 2; }
+    </style>
+  </head>
+  <body>
+    <h1>position & z-index</h1>
+
+    <h2>relative — offset from where it would be</h2>
+    <div class="demo">
+      <span class="rel">I'm shifted 10px down and 30px right.</span>
+      <span>Other inline content keeps the original slot — that's why
+        `relative` is "still in flow".</span>
+    </div>
+
+    <h2>absolute — anchored to nearest positioned ancestor</h2>
+    <div class="demo container">
+      Card content...
+      <span class="badge">NEW</span>
+    </div>
+
+    <h2>sticky — sticks to the top while inside its scroll area</h2>
+    <div class="scroll-area">
+      <div class="sticky-h">I stick to the top while you scroll inside</div>
+      <p>scroll me…</p><p>line</p><p>line</p><p>line</p><p>line</p>
+      <p>line</p><p>line</p><p>line</p><p>line</p><p>line</p><p>line</p>
+    </div>
+
+    <h2>z-index stacking</h2>
+    <div class="demo stack">
+      <div class="red">z 1</div>
+      <div class="green">z 3 (top)</div>
+      <div class="blue">z 2</div>
+    </div>
+
+    <p>The blue floating action button at the bottom-right uses
+       <code>position: fixed</code> — it stays visible while the page scrolls.</p>
+
+    <div class="fab">+</div>
+  </body>
+</html>
