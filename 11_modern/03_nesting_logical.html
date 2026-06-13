@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nesting & Logical Properties</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Native CSS nesting (2023+)
+        ============================================================
+        Long requested. Mirrors the Sass/Less nesting devs already loved.
+
+          .card {
+            padding: 1rem;
+
+            & h2 { color: navy; }
+            & p  { line-height: 1.5; }
+
+            &:hover { background: #fafafa; }
+
+            @media (min-width: 600px) {
+              padding: 2rem;
+            }
+          }
+
+        Rules:
+          - Use `&` to refer to the outer selector.
+          - You CAN omit `&` for descendants in modern browsers, but
+            `&` makes intent explicit & avoids parser ambiguity.
+          - Nest media queries directly inside selectors.
+
+        ============================================================
+        CONCEPT: Logical properties
+        ============================================================
+        Instead of LEFT/RIGHT and TOP/BOTTOM, logical properties
+        follow READING DIRECTION. Switch to RTL or vertical writing,
+        and your layout adapts.
+
+          margin-left              →  margin-inline-start
+          margin-right             →  margin-inline-end
+          padding-top              →  padding-block-start
+          padding-bottom           →  padding-block-end
+          width                    →  inline-size
+          height                   →  block-size
+          border-left              →  border-inline-start
+          text-align: left         →  text-align: start
+
+        Shorthand:
+          margin-inline: 1rem 2rem;     (start, end)
+          padding-block: 0.5rem;        (both)
+
+        Why bother?
+          - Internationalization: Arabic/Hebrew flip horizontally.
+          - Vertical writing modes (Japanese vertical text).
+          - Future-proof code that works regardless of direction.
+        ============================================================
+      */
+      :root {
+        --brand: #6366f1;
+        --soft: #f4f4f4;
+      }
+
+      body {
+        font-family: sans-serif;
+        max-width: 720px;
+        margin-inline: auto;          /* logical equivalent of margin: 0 auto */
+        padding-inline: 1rem;         /* horizontal padding */
+        padding-block: 1rem;          /* vertical padding */
+      }
+
+      /* Native nesting */
+      .card {
+        background: var(--soft);
+        padding-block: 1rem;
+        padding-inline: 1.25rem;
+        border-radius: 8px;
+        margin-block-end: 1rem;       /* margin below */
+
+        & h2 {
+          margin-block-start: 0;      /* margin above */
+          color: var(--brand);
+        }
+
+        & p {
+          margin-block-end: 0;
+          line-height: 1.6;
+        }
+
+        & .tag {
+          background: var(--brand);
+          color: white;
+          padding-inline: 0.5rem;
+          padding-block: 0.1rem;
+          border-radius: 999px;
+          font-size: 0.8rem;
+          margin-inline-end: 0.5rem;
+        }
+
+        &:hover {
+          background: white;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        @media (min-width: 600px) {
+          padding-inline: 2rem;
+        }
+      }
+
+      /* RTL container — toggle the dir to see logical properties flip */
+      .rtl {
+        direction: rtl;
+        background: #fff5e1;
+        padding: 1rem;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nesting & Logical Properties</h1>
+
+    <article class="card">
+      <h2>Native CSS nesting</h2>
+      <p><span class="tag">tag</span>
+        Notice how the rules for h2/p/.tag and the :hover state are
+        defined INSIDE the .card block — no repetition of <code>.card</code>.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>Hover this card</h2>
+      <p>The hover style is nested inline. Resize the window past 600px
+         and the padding grows — the media query is also nested.</p>
+    </article>
+
+    <h2>Logical properties — same CSS, two directions</h2>
+    <article class="card">
+      <h2>LTR (English) — default</h2>
+      <p>"<span class="tag">tag</span>" sits at the START (left). The card's
+         padding & margin use <code>-inline-start</code>/<code>-end</code>.</p>
+    </article>
+
+    <article class="card rtl">
+      <h2>RTL (Arabic-style) — direction: rtl</h2>
+      <p>Same CSS — but now "<span class="tag">tag</span>" appears on the
+         RIGHT because <code>margin-inline-end</code> follows reading direction.</p>
+    </article>
+  </body>
+</html>
