@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flexbox — Common Patterns</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Flexbox patterns to memorize
+        ============================================================
+        Once you've learned the properties, the real skill is RECOGNIZING
+        which combination solves common UI problems.
+
+        Patterns shown below:
+          1. Center anything (one liner)
+          2. Navbar with logo on left, links on right
+          3. Card with image left, body fills, button bottom-right
+          4. Push the last item away (`margin-left: auto`)
+          5. Equal-height cards via stretch + flex-grow
+          6. Sticky footer (push footer to viewport bottom)
+        ============================================================
+      */
+      *, *::before, *::after { box-sizing: border-box; }
+      body { font-family: sans-serif; margin: 0; }
+      section { padding: 1rem; border-bottom: 1px solid #eee; }
+      h2 { margin-top: 0; }
+
+      /* 1) center anything */
+      .center {
+        display: flex; justify-content: center; align-items: center;
+        height: 120px; background: #2c3e50; color: white; border-radius: 6px;
+      }
+
+      /* 2) navbar */
+      .nav {
+        display: flex; align-items: center; justify-content: space-between;
+        background: #34495e; color: white; padding: 0.75rem 1rem; border-radius: 6px;
+      }
+      .nav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 1.5rem; }
+      .nav a { color: white; text-decoration: none; }
+
+      /* 3) horizontal card */
+      .h-card {
+        display: flex; gap: 1rem; align-items: stretch;
+        background: white; border: 1px solid #ddd; border-radius: 8px;
+        overflow: hidden; max-width: 480px;
+      }
+      .h-card img { width: 140px; height: auto; object-fit: cover; }
+      .h-card .body {
+        flex: 1;
+        display: flex; flex-direction: column;
+        padding: 0.75rem;
+      }
+      .h-card .body p { flex: 1; margin: 0 0 0.5rem; }
+      .h-card .body button {
+        align-self: flex-end;
+        padding: 0.4rem 1rem; border: none;
+        background: #2980b9; color: white; border-radius: 4px;
+      }
+
+      /* 4) push the last to the right */
+      .push {
+        display: flex; gap: 0.5rem;
+        background: #ecf0f1; padding: 0.5rem 1rem; border-radius: 6px;
+      }
+      .push > div { padding: 0.4rem 0.8rem; background: white; border-radius: 4px; }
+      .push > .right { margin-left: auto; }
+
+      /* 5) equal-height cards row */
+      .cards {
+        display: flex; gap: 1rem; align-items: stretch;
+      }
+      .cards .c {
+        flex: 1; padding: 1rem;
+        background: #fff5e1; border: 1px solid #f1c40f; border-radius: 6px;
+      }
+
+      /* 6) sticky footer */
+      .page {
+        display: flex; flex-direction: column;
+        min-height: 240px;       /* in real apps: 100vh */
+        background: #fafafa; border: 1px solid #ddd; border-radius: 6px;
+      }
+      .page header,
+      .page footer { background: #2c3e50; color: white; padding: 0.5rem 1rem; }
+      .page main   { flex: 1; padding: 1rem; }   /* fills remaining height */
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>1) Center anything</h2>
+      <div class="center">centered both axes</div>
+    </section>
+
+    <section>
+      <h2>2) Navbar</h2>
+      <nav class="nav">
+        <strong>BRAND</strong>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">Login</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <section>
+      <h2>3) Horizontal card with bottom-right button</h2>
+      <article class="h-card">
+        <img src="https://picsum.photos/300/200" alt="" />
+        <div class="body">
+          <h3 style="margin: 0 0 0.25rem;">Card title</h3>
+          <p>The body fills the available height. The button sits in the
+             bottom-right thanks to <code>align-self: flex-end</code>.</p>
+          <button>Read</button>
+        </div>
+      </article>
+    </section>
+
+    <section>
+      <h2>4) Push the last item away</h2>
+      <div class="push">
+        <div>File</div>
+        <div>Edit</div>
+        <div>View</div>
+        <div class="right">Sign out</div>
+      </div>
+      <p><small>The trick: <code>margin-left: auto</code> on the item you want pushed.</small></p>
+    </section>
+
+    <section>
+      <h2>5) Equal-height cards</h2>
+      <div class="cards">
+        <div class="c">Short.</div>
+        <div class="c">A bit longer text in this card. Adds another sentence here too. And another.</div>
+        <div class="c">Medium amount of text.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>6) Sticky footer</h2>
+      <div class="page">
+        <header>Header</header>
+        <main>Main content (might be short)</main>
+        <footer>Footer pinned at the bottom thanks to flex-direction: column + main { flex: 1 }</footer>
+      </div>
+    </section>
+  </body>
+</html>
