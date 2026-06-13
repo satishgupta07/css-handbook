@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Overflow & Float</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: overflow
+        ============================================================
+        What happens when content is bigger than its box?
+
+          visible    DEFAULT — content spills out
+          hidden     content clipped, no scroll
+          scroll     ALWAYS show scrollbars (even if not needed)
+          auto       scrollbars only when needed (preferred)
+          clip       like hidden but completely disables scrolling
+                     (modern, lightweight)
+
+        Per-axis: overflow-x and overflow-y. Common pattern:
+          overflow-x: hidden;
+          overflow-y: auto;
+
+        ============================================================
+        CONCEPT: float (legacy → still has uses)
+        ============================================================
+        float was THE layout tool of 2010 (the old "grid systems").
+        Today, use flexbox / grid for layout.
+
+        float is still appropriate for:
+          - Wrapping text around an image (the original use case)
+          - Drop-cap-like effects
+          - PDF-like document layouts
+
+        Mechanics:
+          float: left | right         element pulled out of flow,
+                                      siblings wrap around it
+          clear: left | right | both  prevent wrapping below this point
+
+        Modern "clearfix": display: flow-root on the parent (no hacks).
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; max-width: 720px; margin: 0 auto; }
+
+      .ov {
+        width: 200px; height: 80px;
+        border: 1px solid #888; padding: 6px; margin: 8px;
+        display: inline-block;
+        vertical-align: top;
+      }
+      .visible { overflow: visible; }
+      .hidden  { overflow: hidden; }
+      .auto    { overflow: auto; }
+
+      .article {
+        border: 1px dashed #aaa; padding: 1rem; margin-top: 1rem;
+        display: flow-root;          /* modern clearfix — contains the float */
+      }
+      .article img {
+        float: left;
+        margin: 0 1rem 0.5rem 0;
+        width: 120px; height: 90px; object-fit: cover; border-radius: 4px;
+      }
+
+      /* horizontal scroll snap (modern) — bonus pattern */
+      .h-scroll {
+        display: flex; gap: 1rem;
+        overflow-x: auto;
+        padding: 1rem 0;
+        scroll-snap-type: x mandatory;
+      }
+      .h-scroll .card {
+        flex: 0 0 220px; height: 120px;
+        background: #2c3e50; color: white;
+        border-radius: 8px; padding: 1rem;
+        scroll-snap-align: start;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>overflow</h1>
+    <p>Each box has the same content but different overflow setting:</p>
+    <div class="ov visible">visible — text spills out of the box because it doesn't fit. Watch it overlap neighbors.</div>
+    <div class="ov hidden">hidden — text is clipped at the edge. No scrollbars.</div>
+    <div class="ov auto">auto — scrollbars appear ONLY when needed. The cleanest choice for content that might overflow.</div>
+
+    <h1>float — wrap text around an image</h1>
+    <div class="article">
+      <img src="https://picsum.photos/240/180" alt="" />
+      <p>Originally, <code>float</code> was the way websites did multi-column
+         layouts. Today we have flex and grid. But float is still the natural
+         choice when you want body text to <strong>wrap around</strong> an
+         element — like a magazine.</p>
+      <p>The parent has <code>display: flow-root</code>, which contains the
+         floated child without any clearfix hacks.</p>
+    </div>
+
+    <h1>Bonus: horizontal scroll snap</h1>
+    <p>A modern pattern using overflow-x and scroll-snap.</p>
+    <div class="h-scroll">
+      <div class="card">Card 1</div>
+      <div class="card">Card 2</div>
+      <div class="card">Card 3</div>
+      <div class="card">Card 4</div>
+      <div class="card">Card 5</div>
+    </div>
+  </body>
+</html>
