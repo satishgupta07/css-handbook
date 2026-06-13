@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing Table</title>
+    <style>
+      /* PROJECT 3: Three-tier pricing table.
+         Practices: grid auto-fit, custom properties, hover state,
+         featured plan emphasis. */
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      :root {
+        --bg: #f9fafb;
+        --fg: #111827;
+        --muted: #6b7280;
+        --brand: #6366f1;
+        --brand-d: #4f46e5;
+        --soft: #eef2ff;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        margin: 0;
+        padding: 3rem 1rem;
+        min-height: 100vh;
+      }
+
+      .header {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+      }
+      .header h1 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin: 0 0 0.5rem;
+      }
+      .header p {
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        max-width: 1100px;
+        margin: 0 auto;
+        align-items: stretch;
+      }
+
+      .plan {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        text-align: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .plan:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      }
+
+      .plan.featured {
+        border: 2px solid var(--brand);
+        box-shadow: 0 12px 30px rgba(99,102,241,0.2);
+        transform: scale(1.04);
+      }
+      .plan.featured:hover { transform: scale(1.04) translateY(-4px); }
+
+      .plan.featured::before {
+        content: "MOST POPULAR";
+        position: absolute;
+        top: -12px; left: 50%;
+        transform: translateX(-50%);
+        background: var(--brand);
+        color: white;
+        padding: 0.25rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        border-radius: 999px;
+      }
+
+      .plan h2 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+
+      .plan .price {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 1rem 0;
+        line-height: 1;
+      }
+      .plan .price small {
+        font-size: 1rem;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .plan .desc {
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .plan ul {
+        list-style: none;
+        padding: 0; margin: 0 0 2rem;
+        text-align: left;
+        flex: 1;
+      }
+      .plan li {
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #374151;
+      }
+      .plan li::before {
+        content: "✓";
+        color: #10b981;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .plan li.no::before {
+        content: "✗";
+        color: #d1d5db;
+      }
+      .plan li.no { color: #9ca3af; text-decoration: line-through; }
+
+      .plan a {
+        display: block;
+        padding: 0.75rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.2s;
+      }
+      .plan a.primary {
+        background: var(--brand);
+        color: white;
+      }
+      .plan a.primary:hover { background: var(--brand-d); }
+      .plan a.ghost {
+        background: var(--soft);
+        color: var(--brand);
+      }
+      .plan a.ghost:hover { background: var(--brand); color: white; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Simple, transparent pricing</h1>
+      <p>No hidden fees. Cancel anytime.</p>
+    </header>
+
+    <section class="plans">
+      <div class="plan">
+        <h2>Starter</h2>
+        <div class="price">$0<small>/mo</small></div>
+        <p class="desc">Perfect for trying things out.</p>
+        <ul>
+          <li>Up to 3 projects</li>
+          <li>Single user</li>
+          <li>Community support</li>
+          <li class="no">Custom domain</li>
+          <li class="no">Priority support</li>
+        </ul>
+        <a class="ghost" href="#">Get started</a>
+      </div>
+
+      <div class="plan featured">
+        <h2>Pro</h2>
+        <div class="price">$19<small>/mo</small></div>
+        <p class="desc">For freelancers and small teams.</p>
+        <ul>
+          <li>Unlimited projects</li>
+          <li>Up to 10 users</li>
+          <li>Priority email support</li>
+          <li>Custom domain</li>
+          <li class="no">SSO &amp; SAML</li>
+        </ul>
+        <a class="primary" href="#">Start 14-day trial</a>
+      </div>
+
+      <div class="plan">
+        <h2>Business</h2>
+        <div class="price">$49<small>/mo</small></div>
+        <p class="desc">For growing companies.</p>
+        <ul>
+          <li>Unlimited projects</li>
+          <li>Unlimited users</li>
+          <li>Phone &amp; email support</li>
+          <li>Custom domain</li>
+          <li>SSO &amp; SAML</li>
+        </ul>
+        <a class="ghost" href="#">Contact sales</a>
+      </div>
+    </section>
+  </body>
+</html>
