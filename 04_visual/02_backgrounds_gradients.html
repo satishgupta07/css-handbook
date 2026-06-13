@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Backgrounds & Gradients</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Backgrounds
+        ============================================================
+        Sub-properties (all combine into the `background` shorthand):
+
+          background-color       solid color (or transparent)
+          background-image       url(...) | linear-gradient(...) | etc.
+          background-repeat      repeat | no-repeat | repeat-x | repeat-y | space | round
+          background-position    center | top right | 50% 30% | 20px 40px
+          background-size        auto | cover | contain | 100px 50px | 100%
+          background-attachment  scroll | fixed | local
+          background-clip        border-box | padding-box | content-box | text
+          background-origin      where the position is measured from
+
+        You can layer MULTIPLE backgrounds — comma-separated. The FIRST
+        listed appears on TOP.
+
+        ============================================================
+        CONCEPT: Gradients
+        ============================================================
+          linear-gradient(to right, #ff7e5f, #feb47b)
+          linear-gradient(135deg, #667eea, #764ba2)
+          radial-gradient(circle at top right, #fff, #2980b9)
+          conic-gradient(from 0deg, red, yellow, lime, blue, red)
+
+        Stops control where colors "land":
+          linear-gradient(to right, red 0%, red 50%, blue 50%, blue 100%)
+          (creates a hard split — no blend)
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .box {
+        height: 140px; margin-bottom: 1rem;
+        border-radius: 8px; padding: 1rem;
+        color: white; font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      }
+
+      .solid       { background: #2c3e50; }
+      .image       { background: url("https://picsum.photos/600/200") center/cover no-repeat; }
+      .linear      { background: linear-gradient(135deg, #667eea, #764ba2); }
+      .linear-3    { background: linear-gradient(to right, #ff7e5f, #feb47b 50%, #c0392b); }
+      .radial      { background: radial-gradient(circle at top left, #ffd86b, #fc6262); }
+      .conic       { background: conic-gradient(from 0deg, red, yellow, lime, cyan, blue, magenta, red); }
+      .stripes     { background: repeating-linear-gradient(45deg, #2c3e50, #2c3e50 10px, #34495e 10px, #34495e 20px); }
+
+      /* MULTIPLE backgrounds — image on top, gradient behind */
+      .layered {
+        background:
+          linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+          url("https://picsum.photos/600/200?random=2") center/cover no-repeat;
+      }
+
+      /* background-clip: text — gradient text */
+      .gradient-text {
+        font-size: 3rem; font-weight: 800; margin: 1rem 0;
+        background: linear-gradient(90deg, #ee0979, #ff6a00);
+        -webkit-background-clip: text; background-clip: text;
+        color: transparent;
+      }
+
+      /* fixed background — parallax-like effect */
+      .fixed-bg {
+        height: 200px;
+        background: url("https://picsum.photos/600/300?random=3") center/cover fixed;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Backgrounds & Gradients</h1>
+
+    <div class="box solid">Solid color</div>
+    <div class="box image">Image (cover, centered)</div>
+    <div class="box linear">linear-gradient(135deg, ...)</div>
+    <div class="box linear-3">3-stop linear gradient</div>
+    <div class="box radial">radial-gradient(circle at top left, ...)</div>
+    <div class="box conic">conic-gradient — great for color wheels & charts</div>
+    <div class="box stripes">repeating-linear-gradient — barber-pole stripes</div>
+    <div class="box layered">Layered: dark gradient ON TOP of an image (a tinting trick).</div>
+
+    <h2>Gradient text (background-clip: text)</h2>
+    <p class="gradient-text">Gradient Text</p>
+
+    <h2>Fixed background</h2>
+    <div class="box fixed-bg"></div>
+    <p>Scroll the page — the image stays put while the rest moves.</p>
+  </body>
+</html>
