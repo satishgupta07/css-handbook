@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Units</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: CSS Units
+        ============================================================
+        ABSOLUTE
+          px        a "device pixel" — fixed regardless of font size
+          pt, pc    print units (rare on web)
+
+        RELATIVE TO FONT SIZE
+          em        relative to PARENT's font-size
+          rem       relative to ROOT (<html>) font-size — most predictable
+          ch        width of "0" character — great for max-width on text
+          ex        x-height of font (rare)
+          lh        line-height of element (modern, useful for vertical rhythm)
+
+        RELATIVE TO VIEWPORT
+          vw / vh   1% of viewport width / height
+          vmin/vmax smaller / larger of vw, vh
+          dvh, svh, lvh  dynamic / small / large viewport height
+                          (modern, accounts for mobile browser bars)
+
+        FRACTIONAL (grid)
+          fr        fraction of leftover space (only inside grid)
+
+        PERCENTAGES
+          %         depends on the property — usually parent's size
+                    margin/padding %  → parent WIDTH (even for vertical!)
+                    width %           → parent width
+                    height %          → only works if parent has height set
+
+        CALC + math
+          calc(100% - 2rem)
+          calc(50vh - 80px)
+          min(900px, 90vw)            takes the SMALLER (cap a max width)
+          max(1rem, 4vw)              takes the LARGER  (set a min size)
+          clamp(1rem, 2.5vw, 2rem)    floor / preferred / ceiling
+        ============================================================
+      */
+      :root { font-size: 16px; }   /* sets 1rem = 16px */
+
+      body { font-family: sans-serif; padding: 1rem; max-width: 900px; margin: 0 auto; }
+      .demo { padding: 0.5rem; background: #ecf0f1; margin-bottom: 0.5rem; border-radius: 4px; }
+
+      .px   { width: 240px; }
+      .em   { width: 20em; font-size: 14px; }
+      .rem  { width: 20rem; }
+      .vw   { width: 50vw; background: #f1c40f; }
+      .ch   { max-width: 60ch; }   /* great for body copy */
+
+      .calc { width: calc(100% - 4rem); background: #2980b9; color: white; }
+
+      /* fluid typography with clamp */
+      h1 { font-size: clamp(1.5rem, 4vw, 3rem); }   /* shrinks/grows with viewport */
+
+      /* min/max examples */
+      .container { width: min(900px, 90vw); margin: 0 auto; background: #fde4e4; padding: 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1>CSS Units (resize the window — fluid h1!)</h1>
+
+    <div class="container">
+      <p>This container is <code>width: min(900px, 90vw)</code> — capped at
+         900px on big screens, but 90% of viewport on phones.</p>
+    </div>
+
+    <h2>Fixed pixel width</h2>
+    <div class="demo px">240px</div>
+
+    <h2>Relative to font</h2>
+    <div class="demo em">20em &nbsp; (parent font-size 14px → 280px)</div>
+    <div class="demo rem">20rem &nbsp; (always 320px because root = 16px)</div>
+
+    <h2>Relative to viewport</h2>
+    <div class="demo vw">50vw &nbsp; (half the viewport width — try resizing)</div>
+
+    <h2>Reading width — <code>ch</code></h2>
+    <div class="demo ch">A line capped at 60ch is roughly 60 characters wide,
+      which is the sweet spot for comfortable reading. Use this for body
+      copy / article content.</div>
+
+    <h2>calc()</h2>
+    <div class="demo calc">calc(100% - 4rem)</div>
+
+    <h2>The h1 above scales with the viewport using clamp()</h2>
+    <p><code>clamp(1.5rem, 4vw, 3rem)</code> — never below 1.5rem,
+       never above 3rem, otherwise tracks 4vw.</p>
+  </body>
+</html>
