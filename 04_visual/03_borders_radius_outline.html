@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Borders, Radius & Outline</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: border
+        ============================================================
+        border = border-width + border-style + border-color (any order):
+          border: 2px solid crimson;
+
+        Per-side: border-top / -right / -bottom / -left
+        Per-property: border-top-width, border-top-color, border-top-style
+
+        Styles:
+          none, hidden, dotted, dashed, solid, double,
+          groove, ridge, inset, outset
+
+        ============================================================
+        CONCEPT: border-radius (rounded corners)
+        ============================================================
+          border-radius: 8px;                      all corners
+          border-radius: 8px 4px;                  TL+BR / TR+BL
+          border-radius: 8px 4px 12px 2px;         TL TR BR BL (clockwise)
+          border-radius: 50%;                      circle/oval (with equal width/height)
+          border-radius: 999px;                    pill (any tall pill > content)
+          border-radius: 30px / 60px;              ELLIPTICAL — H radius / V radius
+
+        ============================================================
+        CONCEPT: outline vs border
+        ============================================================
+        outline behaves LIKE a border but:
+          - does NOT take up space (won't shift the layout)
+          - draws OUTSIDE the border, can overlap neighbors
+          - cannot be different per-side (1 ring, all sides)
+          - has outline-offset → push it out from the box
+
+        Used for FOCUS rings — never set `outline: none` without
+        replacing it with another visible focus indicator.
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .box {
+        display: inline-block;
+        width: 140px; height: 80px;
+        margin: 8px;
+        background: #ecf0f1;
+        text-align: center; line-height: 80px;
+      }
+      .b1 { border: 2px solid crimson; }
+      .b2 { border: 4px dashed #16a085; }
+      .b3 { border-top: 4px solid #2980b9; border-bottom: 4px solid #2980b9; }
+      .b4 { border: 6px double #8e44ad; }
+
+      .r1 { border: 2px solid #888; border-radius: 8px; }
+      .r2 { border: 2px solid #888; border-radius: 50%; width: 80px; height: 80px;
+            line-height: 80px; }
+      .r3 { border: 2px solid #888; border-radius: 999px; padding: 0 16px;
+            width: auto; }
+      .r4 { border: 2px solid #888; border-radius: 24px 4px 24px 4px; }
+
+      /* outline */
+      .out {
+        border: 2px solid #555;
+        outline: 4px solid orange;
+        outline-offset: 6px;
+        margin: 30px;     /* extra room so the outline is visible */
+      }
+
+      /* custom focus ring (replaces default) */
+      .btn { padding: 0.5rem 1rem; border: none; background: #2c3e50; color: white;
+             border-radius: 6px; cursor: pointer; }
+      .btn:focus-visible {
+        outline: 3px solid #ffb142;
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Borders</h1>
+    <div class="box b1">solid 2px</div>
+    <div class="box b2">dashed 4px</div>
+    <div class="box b3">top + bottom only</div>
+    <div class="box b4">double 6px</div>
+
+    <h1>Border radius</h1>
+    <div class="box r1">8px</div>
+    <div class="box r2">50% (circle)</div>
+    <div class="box r3">999px (pill)</div>
+    <div class="box r4">mixed corners</div>
+
+    <h1>Outline</h1>
+    <div class="box out">outline + offset</div>
+
+    <h2>Custom focus ring</h2>
+    <button class="btn">Tab to me with the keyboard</button>
+  </body>
+</html>
