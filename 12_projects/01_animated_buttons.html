@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Animated Buttons</title>
+    <style>
+      /* PROJECT 1: 8 different button hover effects in one file.
+         Practices: transitions, transforms, pseudo-elements, gradients. */
+
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        font-family: system-ui, sans-serif;
+        background: #1a1a2e;
+        color: white;
+        min-height: 100vh;
+        margin: 0;
+        padding: 2rem;
+        display: grid;
+        place-items: center;
+      }
+      h1 { margin-bottom: 1.5rem; }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        max-width: 900px;
+        width: 100%;
+      }
+
+      .btn {
+        position: relative;
+        padding: 0.9rem 1.6rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        overflow: hidden;
+        font-family: inherit;
+      }
+
+      /* 1) basic lift */
+      .btn-lift {
+        background: #6366f1;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .btn-lift:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(99,102,241,0.5); }
+
+      /* 2) gradient shift */
+      .btn-gradient {
+        background: linear-gradient(120deg, #ec4899, #6366f1);
+        background-size: 200% 100%;
+        transition: background-position 0.4s ease;
+      }
+      .btn-gradient:hover { background-position: 100% 0; }
+
+      /* 3) outline → fill */
+      .btn-outline {
+        background: transparent;
+        border: 2px solid #06b6d4;
+        color: #06b6d4;
+        transition: background 0.3s, color 0.3s;
+      }
+      .btn-outline:hover { background: #06b6d4; color: white; }
+
+      /* 4) sliding underline */
+      .btn-slide {
+        background: transparent; color: white; padding: 0.5rem 0;
+        border-radius: 0;
+      }
+      .btn-slide::after {
+        content: ""; position: absolute; left: 0; bottom: 0;
+        width: 100%; height: 2px;
+        background: #f59e0b;
+        transform: scaleX(0); transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+      .btn-slide:hover::after { transform: scaleX(1); }
+
+      /* 5) sweep — pseudo-element fills from left */
+      .btn-sweep {
+        background: #2c3e50;
+        z-index: 0;
+      }
+      .btn-sweep::before {
+        content: ""; position: absolute; inset: 0;
+        background: #ec4899;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: -1;
+      }
+      .btn-sweep:hover::before { transform: translateX(0); }
+
+      /* 6) ripple corners */
+      .btn-ripple {
+        background: #16a085;
+        border-radius: 8px;
+        transition: border-radius 0.4s, transform 0.2s;
+      }
+      .btn-ripple:hover { border-radius: 30px 8px 30px 8px; transform: scale(1.04); }
+
+      /* 7) loading dots */
+      .btn-loading {
+        background: #8b5cf6;
+        position: relative;
+      }
+      .btn-loading::after {
+        content: "..."; position: absolute;
+        opacity: 0; transition: opacity 0.2s;
+        margin-inline-start: 4px;
+      }
+      .btn-loading:hover::after { opacity: 1; animation: dots 1s linear infinite; }
+      @keyframes dots {
+        0%   { content: "."; }
+        33%  { content: ".."; }
+        66%  { content: "..."; }
+        100% { content: "."; }
+      }
+
+      /* 8) glow pulse */
+      .btn-glow {
+        background: #ef4444;
+      }
+      .btn-glow:hover {
+        animation: glow 1s ease-in-out infinite alternate;
+      }
+      @keyframes glow {
+        from { box-shadow: 0 0 8px #ef4444; }
+        to   { box-shadow: 0 0 24px #ef4444, 0 0 36px #ef4444; }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1 style="text-align: center;">Hover any button</h1>
+      <div class="grid">
+        <button class="btn btn-lift">Lift</button>
+        <button class="btn btn-gradient">Gradient shift</button>
+        <button class="btn btn-outline">Outline → fill</button>
+        <button class="btn btn-slide">Sliding underline</button>
+        <button class="btn btn-sweep">Sweep</button>
+        <button class="btn btn-ripple">Ripple corners</button>
+        <button class="btn btn-loading">Loading</button>
+        <button class="btn btn-glow">Glow pulse</button>
+      </div>
+    </div>
+  </body>
+</html>
