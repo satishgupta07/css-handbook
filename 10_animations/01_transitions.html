@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Transitions</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: transition
+        ============================================================
+        A transition smoothly INTERPOLATES a property from its old
+        value to a new one when the value changes (e.g. on :hover).
+
+          transition: <property> <duration> <timing> <delay>;
+          transition: background 0.3s ease 0s;
+
+        Multiple properties (comma-separated):
+          transition: background 0.3s ease, transform 0.2s ease;
+
+        Or just animate "all":
+          transition: all 0.2s ease;     ← simple but can be costly,
+                                           prefer naming specific props.
+
+        Timing functions:
+          ease            slow start, fast middle, slow end (default)
+          linear          constant speed
+          ease-in         slow start, fast end
+          ease-out        fast start, slow end (very natural for UI)
+          cubic-bezier(0.4, 0, 0.2, 1)
+                          custom curve (Material Design uses this)
+
+        ⚠ Animatable properties:
+          Things with numeric/color values: opacity, transform, color,
+          background-color, border-color, top/left, padding, etc.
+          NOT animatable: display, font-family, words.
+
+        ⚠ Performance:
+          The CHEAPEST properties to animate are `transform` and
+          `opacity` — they don't trigger layout/paint, only compositing.
+          Avoid animating width/height/top/left when transform works.
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+
+      /* basic */
+      .btn {
+        padding: 0.6rem 1.2rem; border: none; border-radius: 6px;
+        background: #2980b9; color: white; cursor: pointer;
+        transition: background 0.25s ease;
+      }
+      .btn:hover { background: #16a085; }
+
+      /* multi-property */
+      .card {
+        width: 180px; padding: 1rem;
+        background: white; border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+      }
+
+      /* timing functions side-by-side */
+      .timings {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 0.5rem; align-items: center;
+      }
+      .timings .track {
+        background: #ecf0f1; height: 8px; border-radius: 999px;
+        position: relative; overflow: hidden;
+      }
+      .timings .ball {
+        position: absolute; top: -8px; width: 24px; height: 24px;
+        background: #c0392b; border-radius: 50%;
+        transition: left 1s;
+      }
+      .timings .row:hover .ball { left: calc(100% - 24px); }
+      .t-linear .ball  { transition-timing-function: linear; }
+      .t-ease   .ball  { transition-timing-function: ease; }
+      .t-eo     .ball  { transition-timing-function: ease-out; }
+      .t-bezier .ball  { transition-timing-function: cubic-bezier(0.68,-0.55,0.27,1.55); }
+
+      /* "ripple" delay demo */
+      .ripple > div {
+        width: 60px; height: 60px; border-radius: 50%;
+        background: #8e44ad;
+        transition: transform 0.4s ease;
+      }
+      .ripple:hover > div { transform: scale(1.6); opacity: 0.5; }
+      .ripple > div:nth-child(2) { transition-delay: 0.1s; }
+      .ripple > div:nth-child(3) { transition-delay: 0.2s; }
+      .ripple > div:nth-child(4) { transition-delay: 0.3s; }
+    </style>
+  </head>
+  <body>
+    <h1>Transitions</h1>
+
+    <h2>1) Hover a button (background only)</h2>
+    <div class="row">
+      <button class="btn">Hover me</button>
+      <button class="btn">Or me</button>
+    </div>
+
+    <h2>2) Hover a card (transform + shadow)</h2>
+    <div class="row">
+      <div class="card">Card 1<br /><small>Hover for lift</small></div>
+      <div class="card">Card 2</div>
+      <div class="card">Card 3</div>
+    </div>
+
+    <h2>3) Timing function comparison (hover the track)</h2>
+    <div class="timings">
+      <span>linear</span>      <div class="row t-linear" style="margin:0;"><div class="track"><div class="ball"></div></div></div>
+      <span>ease</span>        <div class="row t-ease" style="margin:0;"><div class="track"><div class="ball"></div></div></div>
+      <span>ease-out</span>    <div class="row t-eo" style="margin:0;"><div class="track"><div class="ball"></div></div></div>
+      <span>bouncy bezier</span> <div class="row t-bezier" style="margin:0;"><div class="track"><div class="ball"></div></div></div>
+    </div>
+
+    <h2>4) Staggered with transition-delay</h2>
+    <div class="row ripple">
+      <div></div><div></div><div></div><div></div>
+    </div>
+  </body>
+</html>
