@@ -14,7 +14,9 @@
           pt, pc    print units (rare on web)
 
         RELATIVE TO FONT SIZE
-          em        relative to PARENT's font-size
+          em        relative to the ELEMENT'S OWN font-size
+                    (exception: when setting font-size itself, em is
+                     relative to the PARENT's font-size)
           rem       relative to ROOT (<html>) font-size — most predictable
           ch        width of "0" character — great for max-width on text
           ex        x-height of font (rare)
@@ -75,7 +77,7 @@
     <div class="demo px">240px</div>
 
     <h2>Relative to font</h2>
-    <div class="demo em">20em &nbsp; (parent font-size 14px → 280px)</div>
+    <div class="demo em">20em &nbsp; (its own font-size 14px → 280px)</div>
     <div class="demo rem">20rem &nbsp; (always 320px because root = 16px)</div>
 
     <h2>Relative to viewport</h2>
