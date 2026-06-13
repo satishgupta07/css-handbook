@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Colors</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Color values
+        ============================================================
+          named         red, dodgerblue, rebeccapurple
+          hex           #ff5733            (RR GG BB)
+          short hex     #f53                (= #ff5533)
+          hex w/ alpha  #ff573380           (RR GG BB AA)
+          rgb()         rgb(255 87 51)      (modern, space-separated)
+          rgba()        rgba(0 0 0 / 0.5)   alpha after a slash
+          hsl()         hsl(12 100% 60%)    hue (0–360), sat %, light %
+          hsla()        hsl(12 100% 60% / 0.6)
+          oklch()       oklch(0.7 0.15 35)  perceptually uniform (modern)
+
+        Choosing:
+          - hex/rgb when copying from designs/Figma
+          - hsl when you want to TWEAK (raise lightness, drop saturation)
+          - oklch / oklab for modern palettes (CSS Color 4)
+
+        Useful "magic" values:
+          transparent       same as rgba(0 0 0 / 0)
+          currentColor      "the current text color" — great on borders,
+                            SVG strokes, etc.
+          inherit           take the parent's value
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .swatch {
+        display: inline-block; width: 120px; height: 64px;
+        margin: 4px; padding: 6px; color: white;
+        font-family: monospace; font-size: 0.8rem;
+        border-radius: 6px;
+      }
+      .named  { background: dodgerblue; }
+      .hex    { background: #ff5733; }
+      .rgb    { background: rgb(46 204 113); }
+      .rgba   { background: rgba(0 0 0 / 0.6); }
+      .hsl    { background: hsl(280 70% 55%); }
+      .hsla   { background: hsl(280 70% 55% / 0.5); color: black; }
+      .oklch  { background: oklch(0.7 0.18 200); }
+
+      /* currentColor — the border picks up the text color */
+      .cc-demo {
+        color: crimson;
+        border: 3px solid currentColor;
+        padding: 0.5rem;
+        margin-top: 1rem;
+        display: inline-block;
+      }
+
+      /* HSL is great for theming — change one number to recolor everything */
+      :root {
+        --brand-h: 200;
+        --brand-s: 80%;
+        --brand-l: 50%;
+      }
+      .theme-pill {
+        background: hsl(var(--brand-h) var(--brand-s) var(--brand-l));
+        color: white;
+        padding: 6px 12px; border-radius: 999px;
+        display: inline-block;
+        margin-right: 6px;
+      }
+      .theme-pill.dark  { background: hsl(var(--brand-h) var(--brand-s) 30%); }
+      .theme-pill.light { background: hsl(var(--brand-h) var(--brand-s) 80%); color: black; }
+    </style>
+  </head>
+  <body>
+    <h1>Color values</h1>
+
+    <div class="swatch named">dodgerblue</div>
+    <div class="swatch hex">#ff5733</div>
+    <div class="swatch rgb">rgb(46 204 113)</div>
+    <div class="swatch rgba">rgba(0 0 0 / 0.6)</div>
+    <div class="swatch hsl">hsl(280 70% 55%)</div>
+    <div class="swatch hsla">hsl(280 70% 55% / 0.5)</div>
+    <div class="swatch oklch">oklch(0.7 0.18 200)</div>
+
+    <h2>currentColor</h2>
+    <div class="cc-demo">My border auto-matches my text color.</div>
+
+    <h2>HSL theming — same hue, different lightness</h2>
+    <p>
+      <span class="theme-pill dark">dark 30%</span>
+      <span class="theme-pill">base 50%</span>
+      <span class="theme-pill light">light 80%</span>
+    </p>
+    <p>Change <code>--brand-h</code> in the CSS and ALL three pills shift hue together.</p>
+  </body>
+</html>
