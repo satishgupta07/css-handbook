@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fonts & Web Fonts</title>
+
+    <!-- Google Fonts (CDN). For production, prefer self-hosted .woff2 files. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;1,700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /*
+        ============================================================
+        CONCEPT: font-family stacks
+        ============================================================
+        ALWAYS provide a fallback chain. If the first font fails to
+        load (slow network, blocked CDN), the browser walks the list:
+
+          font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+        End with one of the GENERIC families:
+          serif         Times-like
+          sans-serif    Helvetica/Arial-like
+          monospace     Courier-like
+          cursive       handwritten
+          system-ui     the OS's native UI font (modern, fast, no download)
+
+        ============================================================
+        CONCEPT: Loading custom (web) fonts
+        ============================================================
+        Two ways:
+
+          1. <link> tag from a CDN (Google Fonts, Adobe Fonts) — easy.
+
+          2. @font-face — self-host the file. No external requests.
+             @font-face {
+               font-family: 'MyFont';
+               src: url('/fonts/myfont.woff2') format('woff2');
+               font-weight: 400;
+               font-display: swap;   ← key: avoid invisible text on load
+             }
+
+        font-display values:
+          auto    browser decides (often blocks text briefly)
+          swap    show fallback IMMEDIATELY, swap when font loads (best UX)
+          block   short blocking period
+          optional uses fallback if not cached; never swaps later
+
+        ============================================================
+        CONCEPT: font shorthand
+        ============================================================
+          font: italic bold 1rem/1.5 'Inter', sans-serif;
+                 │      │    │   │    └ family stack
+                 │      │    │   └ line-height (after the slash)
+                 │      │    └ font-size  ← REQUIRED
+                 │      └ font-weight
+                 └ font-style
+        ============================================================
+      */
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.6;
+        max-width: 720px;
+        margin: 1rem auto;
+        padding: 1rem;
+      }
+
+      .serif      { font-family: 'Playfair Display', Georgia, serif; }
+      .mono       { font-family: 'JetBrains Mono', Menlo, monospace; }
+      .system     { font-family: system-ui, sans-serif; }
+
+      .weights span { display: inline-block; margin-right: 1rem; }
+      .w400 { font-weight: 400; }
+      .w700 { font-weight: 700; }
+      .w900 { font-weight: 900; }
+
+      .italic-pf { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; }
+    </style>
+  </head>
+  <body>
+    <h1>Fonts</h1>
+
+    <h2>Different families</h2>
+    <p>This page's body uses <strong>Inter</strong> (sans-serif).</p>
+    <p class="serif">This sentence uses <strong>Playfair Display</strong> — an elegant serif for editorial text.</p>
+    <p class="mono">This block uses <strong>JetBrains Mono</strong> — perfect for code (every glyph is the same width).</p>
+    <p class="system">And this uses <strong>system-ui</strong> — the OS's own UI font (San Francisco on macOS, Segoe UI on Windows).</p>
+
+    <h2>Weights of Inter</h2>
+    <p class="weights">
+      <span class="w400">Weight 400 (regular)</span>
+      <span class="w700">Weight 700 (bold)</span>
+      <span class="w900">Weight 900 (black)</span>
+    </p>
+
+    <h2>Italic + bold from a downloaded face</h2>
+    <p class="italic-pf">"Typography is the visual voice of the written word."</p>
+
+    <h2>Tip: what happens while a font loads?</h2>
+    <p>By default, browsers may show invisible text (FOIT) while waiting.
+       Use <code>display=swap</code> in the Google Fonts URL — or
+       <code>font-display: swap</code> in <code>@font-face</code> — so the
+       browser shows the fallback font immediately, then swaps in the custom
+       one when it arrives.</p>
+  </body>
+</html>
