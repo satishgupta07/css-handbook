@@ -5,6 +5,36 @@ The lessons are short, hands-on demos; this README is the conceptual
 scaffolding behind them. Read a section, then open the lesson(s) to see
 the ideas live.
 
+> No build tools, no server. Double-click any `.html` file to open it.
+
+---
+
+## Quick reference
+
+```
+PHASE  1  Foundations    01_foundations/  inline/internal/external, cascade, specificity
+PHASE  2  Selectors      02_selectors/    basic, combinators, pseudo-classes & elements
+PHASE  3  Box Model      03_box_model/    box-sizing, margin collapsing
+PHASE  4  Visual         04_visual/       colors, backgrounds/gradients, borders, shadows
+PHASE  5  Typography     05_typography/   font stacks, text styling
+PHASE  6  Layout         06_layout/       display, position/z-index, overflow/float
+PHASE  7  Flexbox        07_flexbox/      container, items, patterns
+PHASE  8  Grid           08_grid/         tracks, placement/areas, responsive patterns
+PHASE  9  Responsive     09_responsive/   units, media queries, modern techniques
+PHASE 10  Animations     10_animations/   transitions, transforms, keyframes
+PHASE 11  Modern CSS     11_modern/       custom properties, is/where/has, nesting
+PHASE 12  Projects       12_projects/     buttons, modal, pricing, gallery, hero
+```
+
+Full step-by-step list is in [§16 Lesson index](#16-lesson-index).
+
+## How to use this guide
+
+1. Read a section here for the concept (the *why*).
+2. Open the matching lesson `.html` in your browser to see it run (the *how*).
+3. Edit a value, refresh, and watch what changes. Break it, then fix it.
+4. Use DevTools (right-click → Inspect) to toggle styles on any element live.
+
 ---
 
 ## 1. What CSS really is
@@ -899,6 +929,16 @@ Step 36  03_pricing_table.html           Three-tier pricing with featured plan
 Step 37  04_image_gallery.html           Magazine-style grid with hover overlays
 Step 38  05_animated_hero.html           Animated gradient hero with floating shapes
 ```
+
+### Projects at a glance
+
+| # | Project | Concepts applied |
+|---|---------|------------------|
+| 1 | [01_animated_buttons.html](12_projects/01_animated_buttons.html) | Transitions, transforms, hover states |
+| 2 | [02_pure_css_modal.html](12_projects/02_pure_css_modal.html) | `:target` modal — zero JavaScript |
+| 3 | [03_pricing_table.html](12_projects/03_pricing_table.html) | Flexbox row, featured-plan lift |
+| 4 | [04_image_gallery.html](12_projects/04_image_gallery.html) | Grid layout, hover overlays |
+| 5 | [05_animated_hero.html](12_projects/05_animated_hero.html) | `@keyframes`, animated gradients |
 
 ---
 
