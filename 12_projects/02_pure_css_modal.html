@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pure-CSS Modal</title>
+    <style>
+      /* PROJECT 2: Modal/dialog driven by the :target pseudo-class.
+         No JavaScript. Practices: :target, fixed positioning,
+         transitions, overlay, backdrop-filter. */
+
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0; padding: 2rem;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: grid; place-items: center;
+        color: white;
+      }
+      .open-btn {
+        background: white; color: #2c3e50;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem; font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.2s;
+      }
+      .open-btn:hover { transform: translateY(-2px); }
+
+      /*
+        The modal:
+        - hidden by default (opacity 0, pointer-events none)
+        - when its id matches the URL hash (#modal), :target activates
+          and we show it.
+      */
+      .modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        display: grid; place-items: center;
+        z-index: 100;
+      }
+
+      .modal-content {
+        background: white; color: #1a1a2e;
+        max-width: 420px; width: 90%;
+        padding: 2rem;
+        border-radius: 12px;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
+      }
+      .modal-content h2 { margin-top: 0; }
+      .modal-content p  { color: #555; line-height: 1.6; }
+
+      .close {
+        position: absolute; top: 1rem; right: 1rem;
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: #f4f4f4; color: #555;
+        display: grid; place-items: center;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: background 0.2s;
+      }
+      .close:hover { background: #ec4899; color: white; }
+
+      .actions { margin-top: 1.5rem; display: flex; gap: 0.5rem; justify-content: flex-end; }
+      .actions a {
+        padding: 0.5rem 1rem; border-radius: 6px;
+        text-decoration: none; font-weight: 600;
+      }
+      .actions .cancel  { background: #f4f4f4; color: #555; }
+      .actions .confirm { background: #6366f1; color: white; }
+
+      /* :target — the magic. When URL is #modal, this rule activates. */
+      .modal-overlay:target {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-overlay:target .modal-content {
+        transform: scale(1) translateY(0);
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center;">
+      <h1>Pure-CSS Modal</h1>
+      <p>Driven by the <code>:target</code> pseudo-class — zero JavaScript.</p>
+      <a href="#modal" class="open-btn">Open the modal</a>
+    </div>
+
+    <!--
+      The modal lives in the page from the start.
+      Its visibility is toggled when the URL hash matches its id.
+      Click the link → URL becomes #modal → :target rule kicks in.
+      Click the close (which links to #) → hash clears → modal hides.
+    -->
+    <div id="modal" class="modal-overlay">
+      <div class="modal-content">
+        <a href="#" class="close" aria-label="Close">×</a>
+        <h2>Confirm action</h2>
+        <p>This modal opens and closes purely via CSS — no scripts, no
+           frameworks. The trick is the <code>:target</code> pseudo-class
+           which matches an element whose id equals the URL fragment.</p>
+        <div class="actions">
+          <a href="#" class="cancel">Cancel</a>
+          <a href="#" class="confirm">Confirm</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
