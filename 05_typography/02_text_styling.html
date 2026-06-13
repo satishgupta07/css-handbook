@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Text styling</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Text properties
+        ============================================================
+          color                     text color
+          text-align                left | right | center | justify | start | end
+          text-decoration           none | underline | overline | line-through
+                                    + style (wavy, dashed) + color + thickness
+          text-transform            uppercase | lowercase | capitalize | none
+          letter-spacing            extra space between LETTERS (tracking)
+          word-spacing              extra space between WORDS
+          line-height               distance between lines (leading)
+          text-indent               first-line indent
+          white-space               normal | nowrap | pre | pre-wrap | pre-line
+          word-break                normal | break-all | keep-all
+          overflow-wrap             normal | anywhere | break-word
+          text-overflow             clip | ellipsis (only with overflow:hidden + nowrap)
+          hyphens                   none | manual | auto
+          font-variant-numeric      tabular-nums (numbers in monospace columns)
+          writing-mode              horizontal-tb | vertical-rl | vertical-lr
+
+        Practical recipes →
+        ============================================================
+      */
+      body { font-family: system-ui, sans-serif; padding: 1rem; max-width: 720px; margin: 0 auto; }
+      section { border: 1px solid #ddd; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; }
+
+      .right    { text-align: right; }
+      .justify  { text-align: justify; }
+      .upper    { text-transform: uppercase; letter-spacing: 0.12em; }
+      .underline-wavy { text-decoration: underline wavy crimson 2px; }
+      .strike   { text-decoration: line-through #888; }
+
+      .leading-tight { line-height: 1.1; background: #fff5e6; }
+      .leading-airy  { line-height: 2.0; background: #e8fff1; }
+
+      /* one-line truncation with ellipsis (the classic CSS recipe) */
+      .truncate {
+        max-width: 280px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        background: #f4f4f4; padding: 4px;
+      }
+
+      /* multi-line clamp (Webkit but widely supported) */
+      .clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        background: #f4f4f4; padding: 4px;
+      }
+
+      /* preserve all whitespace */
+      .pre { white-space: pre; background: #fafafa; padding: 6px;
+             font-family: 'JetBrains Mono', monospace; }
+
+      /* numeric alignment for prices/scores */
+      .prices { font-variant-numeric: tabular-nums; }
+      .prices li { list-style: none; font-family: monospace; }
+
+      /* vertical writing */
+      .vertical {
+        writing-mode: vertical-rl;
+        height: 200px; padding: 8px;
+        background: #2c3e50; color: white; display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Text styling</h1>
+
+    <section>
+      <h2>Alignment</h2>
+      <p>Default left-aligned.</p>
+      <p class="right">Right-aligned.</p>
+      <p class="justify">Justified text spreads words to fill the line. It looks
+        clean for long-form articles but can produce ugly gaps in narrow columns.
+        Use sparingly and pair with <code>hyphens: auto</code> for best results.</p>
+    </section>
+
+    <section>
+      <h2>Transform & decoration</h2>
+      <p class="upper">Uppercased label, with letter-spacing.</p>
+      <p class="underline-wavy">Wavy crimson underline (great for spell-check vibes).</p>
+      <p class="strike">Old price text-decoration: line-through.</p>
+    </section>
+
+    <section>
+      <h2>Line-height feel</h2>
+      <p class="leading-tight">Tight line-height feels dense and editorial. Tight tight tight tight tight tight tight tight tight tight.</p>
+      <p class="leading-airy">Airy line-height feels relaxed and modern. Airy airy airy airy airy airy airy airy airy airy.</p>
+    </section>
+
+    <section>
+      <h2>Truncation</h2>
+      <p class="truncate">This is a very long single line that gets cut off with an ellipsis at the edge…</p>
+      <p class="clamp">This is a multi-line paragraph that's clamped to exactly TWO lines using line-clamp. Anything past the second line is hidden with an ellipsis. It works in all modern browsers.</p>
+    </section>
+
+    <section>
+      <h2>White-space: pre</h2>
+      <p class="pre">function add(a, b) {
+    return a + b;   // whitespace preserved
+}</p>
+    </section>
+
+    <section>
+      <h2>tabular-nums for prices</h2>
+      <ul class="prices">
+        <li>$    9.99</li>
+        <li>$   19.50</li>
+        <li>$1,234.00</li>
+      </ul>
+      <p>Digits line up because each one is the same width.</p>
+    </section>
+
+    <section>
+      <h2>Vertical writing-mode</h2>
+      <div class="vertical">Side-rail label / vertical text</div>
+    </section>
+  </body>
+</html>
