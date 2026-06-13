@@ -46,7 +46,7 @@
         (mostly text-related: color, font-family, line-height, ...).
         Others do NOT inherit (layout: width, padding, border, margin, ...).
 
-        The 3 "magic" keywords work on ANY property:
+        The 4 "magic" keywords work on ANY property:
             inherit  → take the value from the parent
             initial  → reset to the property's CSS-spec default
             unset    → "inherit" if the property normally inherits,
@@ -57,8 +57,9 @@
       .container       { color: navy; font-family: Georgia, serif; }
       .container .keep  { /* inherits color and font-family from parent */ }
       .container .reset { color: initial; font-family: initial; }
-      .container .grab  { border-color: inherit; border: 2px solid; padding: 4px; }
-      /* border-color usually defaults to currentColor; here we force it. */
+      .container .grab  { border: 2px solid; border-color: inherit; padding: 4px; }
+      /* The `border` shorthand resets border-color, so set border-color:inherit
+         AFTER it — otherwise the shorthand's currentColor would win. */
     </style>
   </head>
   <body>
