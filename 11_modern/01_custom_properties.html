@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Custom Properties (CSS Variables)</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Custom Properties — a.k.a. CSS variables
+        ============================================================
+        Define on a selector with `--name: value;`
+        Use anywhere within that scope with `var(--name)`.
+
+        Naming starts with TWO dashes. Custom properties:
+          - INHERIT to descendants (unlike Sass variables — different)
+          - Can be CHANGED at runtime by JS (powers theming, dynamic UI)
+          - Have FALLBACKS:  var(--brand, blue)
+          - Cascade like any other property
+
+        Common pattern: define design tokens at :root,
+        override at component or theme scope.
+
+          :root {
+            --brand: #2980b9;
+            --space-1: 0.5rem;
+            --radius: 8px;
+          }
+
+          .card { background: var(--brand); padding: var(--space-1); }
+
+        Theming pattern: swap variable values via class or media query.
+        ============================================================
+      */
+      :root {
+        --brand: #2980b9;
+        --brand-d: #1e6391;
+        --bg: #ffffff;
+        --fg: #1a1a1a;
+        --muted: #666;
+        --radius: 10px;
+        --space: 1rem;
+
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+      }
+
+      body[data-theme="dark"] {
+        --bg: #1a1a2e;
+        --fg: #ecf0f1;
+        --muted: #95a5a6;
+        --brand: #76d6ff;
+        --brand-d: #3aa8d8;
+      }
+
+      body {
+        background: var(--bg); color: var(--fg);
+        font-family: sans-serif;
+        margin: 0; padding: var(--space);
+        transition: background 0.3s, color 0.3s;
+      }
+
+      .card {
+        max-width: 380px;
+        background: var(--bg);
+        border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
+        border-radius: var(--radius);
+        padding: calc(var(--space) * 1.5);
+        box-shadow: var(--shadow-md);
+        margin-bottom: var(--space);
+      }
+
+      .pill {
+        display: inline-block;
+        background: var(--brand);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.85rem;
+      }
+
+      button {
+        background: var(--brand); color: white; border: none;
+        padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer;
+        transition: background 0.2s;
+      }
+      button:hover { background: var(--brand-d); }
+
+      /* SCOPED override — these cards re-define brand for themselves only */
+      .card.green { --brand: #16a085; --brand-d: #117560; }
+      .card.pink  { --brand: #ec4899; --brand-d: #be1f6f; }
+    </style>
+  </head>
+  <body>
+    <h1>Custom Properties</h1>
+
+    <p>
+      <button onclick="document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark'">
+        Toggle dark mode
+      </button>
+      <span class="pill">live theming</span>
+    </p>
+    <p style="color: var(--muted);">Variables propagate everywhere — toggling one
+       <code>:root</code> swap re-themes the whole page.</p>
+
+    <div class="card">
+      <h2>Default brand</h2>
+      <p style="color: var(--muted);">Card scope inherits :root variables.</p>
+      <button>Action</button>
+    </div>
+
+    <div class="card green">
+      <h2>Green scope</h2>
+      <p style="color: var(--muted);">This card OVERRIDES <code>--brand</code>
+         locally — only its button & pill see the green.</p>
+      <button>Action</button>
+    </div>
+
+    <div class="card pink">
+      <h2>Pink scope</h2>
+      <button>Action</button>
+    </div>
+  </body>
+</html>
