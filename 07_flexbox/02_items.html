@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flexbox — Item Properties</title>
+    <style>
+      /*
+        ============================================================
+        CONCEPT: Flexbox item properties
+        ============================================================
+        Set on the CHILDREN of a flex container.
+
+          flex-grow      how much extra space this item takes
+                          0 (default) = none, 1 = fair share,
+                          2 = double share of leftover, etc.
+          flex-shrink    how much it gives up when overflowing
+                          1 (default) = shrink, 0 = don't shrink
+          flex-basis     starting size BEFORE grow/shrink kick in
+                          length (200px) | auto | content | 0
+          flex           shorthand: flex: <grow> <shrink> <basis>
+                          flex: 1     = 1 1 0       (fill equally)
+                          flex: auto  = 1 1 auto    (fill, but respect content)
+                          flex: none  = 0 0 auto    (rigid, no grow/shrink)
+
+          align-self     overrides container's align-items for THIS item only
+          order          reorder visually. Default 0. Lower → earlier.
+                         (Reorders DOM visually only — doesn't change a11y order.)
+        ============================================================
+      */
+      body { font-family: sans-serif; padding: 1rem; }
+      .row {
+        display: flex; gap: 8px; padding: 8px;
+        background: #ecf0f1; margin-bottom: 12px;
+      }
+      .row > div {
+        background: #16a085; color: white; padding: 12px; border-radius: 4px;
+      }
+
+      /* equal share */
+      .equal > div { flex: 1; }
+
+      /* one item double */
+      .double > div { flex: 1; }
+      .double > .big { flex: 2; }
+
+      /* fixed sidebar + flexible main */
+      .layout > .side { flex: 0 0 200px; background: #2c3e50; }
+      .layout > .main { flex: 1; }
+
+      /* don't shrink */
+      .nope > div { flex: 1 1 250px; }
+      .nope > .keep { flex: 0 0 250px; background: #c0392b; }
+
+      /* align-self */
+      .self { align-items: flex-start; height: 120px; }
+      .self > .down { align-self: flex-end; }
+      .self > .mid  { align-self: center; }
+
+      /* order */
+      .order > div:nth-child(1) { order: 3; }
+      .order > div:nth-child(2) { order: 1; }
+      .order > div:nth-child(3) { order: 2; }
+    </style>
+  </head>
+  <body>
+    <h1>Flexbox — Items</h1>
+
+    <h2>Equal share: <code>flex: 1</code> on every child</h2>
+    <div class="row equal"><div>A</div><div>B</div><div>C</div></div>
+
+    <h2>One item gets double the share</h2>
+    <div class="row double"><div>1</div><div class="big">2 (flex: 2)</div><div>3</div></div>
+
+    <h2>Sidebar + flexible main</h2>
+    <div class="row layout"><div class="side">200px sidebar</div><div class="main">flex: 1 main fills the rest</div></div>
+
+    <h2>Don't shrink: <code>flex: 0 0 250px</code></h2>
+    <div class="row nope">
+      <div>squishy</div>
+      <div class="keep">FIXED 250px (won't shrink even if room is tight)</div>
+      <div>squishy</div>
+    </div>
+
+    <h2>align-self overrides per-item</h2>
+    <div class="row self">
+      <div>top (default from container)</div>
+      <div class="mid">center (align-self)</div>
+      <div class="down">bottom (align-self)</div>
+    </div>
+
+    <h2>order (DOM 1,2,3 → visual 2,3,1)</h2>
+    <div class="row order"><div>I'm 1 in DOM</div><div>I'm 2 in DOM</div><div>I'm 3 in DOM</div></div>
+    <p><small>The DOM order is unchanged (important for screen readers + tab order) — only
+       the visual order is shuffled by `order`.</small></p>
+  </body>
+</html>
