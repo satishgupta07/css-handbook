@@ -98,7 +98,14 @@
 
       /* RESPECT user preference — disable animation if they ask */
       @media (prefers-reduced-motion: reduce) {
-        * { animation: none !important; transition: none !important; }
+        /* Near-instant (not none) so entrance animations still settle on
+           their final frame instead of leaving elements stuck/invisible. */
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
       }
     </style>
   </head>
